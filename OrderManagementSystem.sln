@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderManagementSystem.Data"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderManagementSystem.Models", "OrderManagementSystem.Models\OrderManagementSystem.Models.csproj", "{EEA56933-BE90-4AED-AD17-FD8A5D70055E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderManagementSystem.Web", "OrderManagementSystem.Web\OrderManagementSystem.Web.csproj", "{8A12F557-0008-4D4D-BB88-6E11DA986347}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{EEA56933-BE90-4AED-AD17-FD8A5D70055E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EEA56933-BE90-4AED-AD17-FD8A5D70055E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EEA56933-BE90-4AED-AD17-FD8A5D70055E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A12F557-0008-4D4D-BB88-6E11DA986347}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A12F557-0008-4D4D-BB88-6E11DA986347}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A12F557-0008-4D4D-BB88-6E11DA986347}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A12F557-0008-4D4D-BB88-6E11DA986347}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
