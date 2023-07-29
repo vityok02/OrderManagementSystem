@@ -6,19 +6,18 @@ namespace OrderManagementSystem.Data;
 public class AppDbContext : DbContext
 {
     public DbSet<Order> Orders { get; set; } = null!;
-    public string ConnectionString { get; set; } = @"Server=(localdb)\mssqllocaldb;Database=helloappdb;Trusted_Connection=True;"; // @"Server=(localdb)\mssqllocaldb;Database=helloappdb;Trusted_Connection=True;"
+    public DbSet<OrderType> OrderTypes { get; set; } = null!;
 
-    public AppDbContext()
-    { }
-
-    //public AppDbContext(string connectionString)
-    //{
-    //    ConnectionString = connectionString;
-    //    Database.EnsureCreated();
-    //}
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    public AppDbContext(DbContextOptions<AppDbContext> options)
+        : base(options)
     {
-        optionsBuilder.UseSqlServer(ConnectionString);
+        //Database.EnsureCreated();
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Order>().HasOne(o => o.Type)
+            .WithMany(o => o.Orders)
+            .HasForeignKey(o => o.TypeId);
     }
 }

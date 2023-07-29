@@ -6,7 +6,7 @@ namespace OrderManagementSystem;
 
 public static class ConsoleHelper
 {
-    private static readonly AppDbContext _dbContext = new();
+    private static readonly AppDbContext _dbContext = new(null!);
 
     private static string CustomerName { get; set; } = null!;
     private static int Quantity { get; set; }
