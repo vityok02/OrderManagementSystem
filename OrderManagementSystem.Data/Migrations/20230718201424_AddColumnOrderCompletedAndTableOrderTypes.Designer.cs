@@ -12,15 +12,15 @@ using OrderManagementSystem.Data;
 namespace OrderManagementSystem.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230705131727_AddRateToOrders")]
-    partial class AddRateToOrders
+    [Migration("20230718201424_AddColumnOrderCompletedAndTableOrderTypes")]
+    partial class AddColumnOrderCompletedAndTableOrderTypes
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.8")
+                .HasAnnotation("ProductVersion", "7.0.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -39,6 +39,9 @@ namespace OrderManagementSystem.Data.Migrations
                     b.Property<string>("CustomerName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool?>("IsCompleted")
+                        .HasColumnType("bit");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("money");
 
@@ -48,9 +51,46 @@ namespace OrderManagementSystem.Data.Migrations
                     b.Property<decimal>("Rate")
                         .HasColumnType("money");
 
+                    b.Property<int>("TypeId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("TypeId");
+
                     b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("OrderManagementSystem.Models.OrderType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OrderTypes");
+                });
+
+            modelBuilder.Entity("OrderManagementSystem.Models.Order", b =>
+                {
+                    b.HasOne("OrderManagementSystem.Models.OrderType", "Type")
+                        .WithMany("Orders")
+                        .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Type");
+                });
+
+            modelBuilder.Entity("OrderManagementSystem.Models.OrderType", b =>
+                {
+                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }
