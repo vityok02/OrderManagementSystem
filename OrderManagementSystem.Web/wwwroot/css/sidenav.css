@@ -1,0 +1,28 @@
+﻿html, body {
+    height: 100%;
+}
+
+.sidenav {
+    border-right: 1px solid #525252;
+    padding-top: 50px;
+    color: #525252;
+    font-size: 24px;
+    width: 250px;
+    height: 100%;
+    position: fixed;
+}
+
+    .sidenav ul {
+        list-style: none;
+        padding-left: 40px;
+    }
+
+        .sidenav ul li {
+            padding-bottom: 11px;
+        }
+
+    .sidenav a
+    {
+        color: #525252;
+        text-decoration: none;
+    }

@@ -1,0 +1,100 @@
+﻿.types-group {
+    font-size: 18px;
+    padding-top: 60px;
+    width: 100%;
+    border-bottom: 1px solid #545454;
+}
+
+.type-btn {
+    color: #545454;
+    margin-right: 30px;
+    border: none;
+    background: none;
+    padding: 0;
+}
+
+.filter-group {
+    display: flex;
+    margin-top: 20px;
+}
+
+    .filter-group input {
+        padding-left: 20px;
+        height: 40px;
+        width: 900px;
+        border: 1px solid #545454;
+        border-radius: 4px;
+        margin-right: 50px;
+    }
+
+
+.filter-group .btn {
+    text-decoration: none;
+    color: #545454;
+    font-size: 18px;
+    display: flex;
+    height: 40px;
+    border: 1px solid #545454;
+    border-radius: 4px;
+    align-items: center;
+    margin-right: 15px;
+    padding-inline: 10px;
+}
+
+.confirm-btn {
+    background: none;
+    text-decoration: none;
+    color: #545454;
+    font-size: 16px;
+    display: flex;
+    height: 30px;
+    border: 1px solid #545454;
+    border-radius: 3px;
+    align-items: center;
+    padding-inline: 10px;
+}
+
+table {
+    width: 100%;
+    margin-top: 50px;
+}
+
+    table thead tr {
+        padding-bottom: 20px;
+        font-size: 18px;
+        border-bottom: 1px solid #545454;
+    }
+
+    table thead th {
+        font-weight: normal;
+        padding-bottom: 10px;
+    }
+
+    table tbody {
+        font-size: 20px;
+    }
+
+    table td.status.success {
+        color: darkgreen;
+    }
+
+    table td.status.not-success {
+        color: orange;
+    }
+
+    table tbody tr td{
+        padding-bottom: 10px;
+    }
+
+.edit-icon {
+    height: 30px;
+}
+
+.delete-btn {
+    background: none;
+    border: none;
+}
+
+.delete-icon {
+    height: 30px;
+}

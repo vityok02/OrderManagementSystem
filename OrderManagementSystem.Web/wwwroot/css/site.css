@@ -1,3 +1,8 @@
+html, body {
+    height: 100%;
+    width: 100%;
+}
+
 html {
   font-size: 14px;
 }
@@ -19,4 +24,21 @@ html {
 
 body {
   margin-bottom: 60px;
+}
+
+.wrapper {
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+
+.item {
+}
+
+.main {
+    width: 100%;
+    margin-left: 250px;
+    display: flex;
+    flex-direction: column;
+    padding-inline: 30px;
 }
