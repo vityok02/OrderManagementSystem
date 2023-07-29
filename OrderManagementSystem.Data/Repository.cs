@@ -1,44 +1,56 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OrderManagementSystem.Models;
+using System.Linq.Expressions;
 
 namespace OrderManagementSystem.Data;
 
-public class Repository : IRepository
+public class Repository<TEntity> : IRepository<TEntity> where TEntity : BaseEntity
 {
-    private readonly AppDbContext _context;
-    public Repository(AppDbContext context) 
+    private readonly AppDbContext _dbContext;
+    public Repository(AppDbContext dbContext) 
     {
-        _context = context;
+        _dbContext = dbContext;
     }
 
-    public async Task AddAsync(Order order)
+    public async Task AddAsync(TEntity entity)
     {
-        await _context.Orders.AddAsync(order);
+        await _dbContext.Set<TEntity>().AddAsync(entity);
         await SaveChangesAsync();
     }
 
-    public async Task UpdateAsync(Order order)
+    public async Task UpdateAsync(TEntity entity)
     {
-        _context.Update(order);
+        _dbContext.Update(entity);
         await SaveChangesAsync();
     }
 
-    public async Task<Order> GetAsync(int id)
+    public async Task<TEntity?> GetAsync(int id)
     {
-        var orders = await _context.Orders.FindAsync(id);
+        var entity = await _dbContext.Set<TEntity>().FindAsync(id);
 
-        return orders!;
+        return entity;
     }
 
-    public async Task<IEnumerable<Order>> GetAllAsync()
+    public async Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>>? predicate = null)
     {
-        var orders = await _context.Orders.ToArrayAsync();
+        IQueryable<TEntity> entities = _dbContext.Set<TEntity>();
 
-        return orders;
+        if (predicate is not null)
+        {
+            entities = entities.Where(predicate);
+        }
+
+        return await entities.ToArrayAsync();
+    }
+
+    public async Task DeleteAsync(TEntity entity)
+    {
+        _dbContext.Set<TEntity>().Remove(entity);
+        await SaveChangesAsync();
     }
 
     public async Task SaveChangesAsync()
     {
-        await _context.SaveChangesAsync();
+        await _dbContext.SaveChangesAsync();
     }
 }
