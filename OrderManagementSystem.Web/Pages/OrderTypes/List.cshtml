@@ -1,0 +1,20 @@
+﻿@page "/types"
+@model ListModel
+@{
+    ViewData["Title"] = "Order types";
+}
+
+<h1>Types</h1>
+
+<a asp-page="Add">Add</a>
+
+<form method="post">
+    <ul>
+        @foreach(var type in Model.OrderTypes)
+        {
+            <li>
+                <input type="submit" asp-page-handler="SetType" asp-route-id="@type.Id" value="@type.Name" />
+            </li>
+        }
+    </ul>
+</form>

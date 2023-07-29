@@ -1,0 +1,13 @@
+﻿@page "/types/add"
+@model AddModel
+@{
+    ViewData["Title"] = "Add type";
+}
+
+<h1>Add type</h1>
+
+<form method="post">
+    <label asp-for="OrderType.Name">Name: </label>
+    <input asp-for="OrderType.Name" />
+    <button type="submit">Save</button>
+</form>

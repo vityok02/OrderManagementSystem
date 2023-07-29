@@ -1,0 +1,43 @@
+﻿@page "/orders/{id}"
+@model OrderDetailsModel
+@{
+    ViewData["Title"] = "Details";
+    var order = Model.Order!;
+}
+
+<h1>Details</h1>
+
+<table>
+    <tr>
+        <td>Id</td>
+        <td>@order.Id</td>
+    </tr>
+    <tr>
+        <td>Customer</td>
+        <td>@order.CustomerName</td>
+    </tr>
+    <tr>
+        <td>Quantity</td>
+        <td>@order.Quantity</td>
+    </tr>
+    <tr>
+        <td>Rate</td>
+        <td>@order.Rate</td>
+    </tr>
+    <tr>
+        <td>Price</td>
+        <td>@order.Price</td>
+    </tr>
+    <tr>
+        <td>Type</td>
+        <td>@order.Type!.Name</td>
+    </tr>
+    <tr>
+        <td>Status</td>
+        <td>@Model.Order!.Status</td>
+    </tr>
+    <tr>
+        <td>Date</td>
+        <td>@order.CreatedDate.GetValueOrDefault().ToShortDateString()</td>
+    </tr>
+</table>

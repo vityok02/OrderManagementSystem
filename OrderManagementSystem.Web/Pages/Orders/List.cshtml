@@ -1,0 +1,108 @@
+﻿@page "/orders"
+@model OrdersListModel
+@{
+    ViewData["Title"] = "Orders";
+}
+
+@section styles
+    {
+    <link rel="stylesheet" href="~/css/list.css" asp-append-version="true" />
+}
+
+<div class="types-group">
+    @foreach (var ot in Model.OrderTypes)
+    {
+        <button type="button" class="type-btn">@ot.Name</button>
+    }
+</div>
+<div class="filter-group">
+    <form>
+        <input type="text" placeholder="Search for customer, order status or something" />
+    </form>
+    <button type="submit" class="btn">Search</button>
+    <a asp-page="Add" class="btn">Add order</a>
+</div>
+<table>
+    <thead>
+        <tr>
+            <th>Customer</th>
+            <th>Quantity</th>
+            <th>Rate</th>
+            <th>Price</th>
+            <th>Status</th>
+            <th></th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model.Orders)
+        {
+            <tr>
+                <td>@order.CustomerName</td>
+                <td>@order.Quantity</td>
+                <td>@order.Rate.ToString("#.##")</td>
+                <td>@order.Price.ToString("#.##")</td>
+                @if (order.IsCompleted)
+                {
+                    <td class="status success">@order.Status</td>
+                }
+                else
+                {
+                    <td class="status not-success">@order.Status</td>
+                }
+                <td>
+                    @if (!order.IsCompleted)
+                    {
+                        <form method="post">
+                            <button asp-page-handler="ConfirmOrder" asp-route-id="@order.Id" class="confirm-btn">Confirm</button>
+                        </form>
+                    }
+                </td>
+                <td>@order.CreatedDate!.GetValueOrDefault().ToShortDateString()</td>
+                <td>
+                    <a asp-page="Edit" asp-route-id="@order.Id">
+                        <img class="edit-icon" src="~/images/edit-icon.png">
+                    </a>
+                </td>
+                <td>
+                    <form method="post">
+                        <button asp-page-handler="Delete" asp-route-id="@order.Id" class="delete-btn">
+                            <img class="delete-icon" src="~/images/delete-icon.png">
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@*<ul>
+    @foreach(var order in Model.Orders)
+    {
+        <li style="position: relative">
+            <a asp-page="Details" asp-route-id="@order.Id">
+                <div>
+                    @order.CustomerName
+                </div>
+                <div>
+                    @order.Price
+                </div>
+                @if(order.IsCompleted == true)
+                {
+                    <div>
+                        @order.Status
+                    </div>
+                }
+            </a>
+            <div style="position: absolute; bottom: 0; right: 0">
+                <a asp-page="/Orders/Edit" asp-route-id="@order.Id">Edit</a>
+            </div>
+            @if(order.IsCompleted == false)
+            {
+                <form method="post">
+                    <button asp-route-id="@order.Id" asp-page-handler="ConfirmOrder">Confirm</button>
+                </form>
+            }
+        </li>
+    }
+</ul>*@
