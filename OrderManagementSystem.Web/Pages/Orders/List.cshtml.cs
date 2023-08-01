@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Query.Internal;
 using OrderManagementSystem.Models;
 
 namespace OrderManagementSystem.Web.Pages.Orders;
@@ -10,6 +11,7 @@ public class OrdersListModel : BaseOrderPageModel
     public IEnumerable<Order> Orders { get; set; } = Enumerable.Empty<Order>();
     public IEnumerable<OrderType> OrderTypes { get; set;} = Enumerable.Empty<OrderType>();
     public string OrderStatus { get; set; } = string.Empty;
+    public int? ActiveOrderTypeId { get; set; }
 
     public OrdersListModel(
         IRepository<Order> repository,
@@ -21,16 +23,22 @@ public class OrdersListModel : BaseOrderPageModel
 
     public async Task OnGetAsync()
     {
-        Orders = await GetOrders();
-        OrderTypes = await _orderTypeRepository.GetAllAsync();
-
-        foreach (var order in Orders)
-        {
-            order.SetStatus();
-        }
+        Orders = await GetOrdersAsync();
+        OrderTypes = await GetOrderTypesAsync();
     }
 
-    public async Task<IActionResult> OnPostConfirmOrder(int id)
+    public async Task<IActionResult> OnPostSelectOrderType(int? id)
+    {
+        Orders = await GetOrdersAsync(id);
+        
+        OrderTypes = await GetOrderTypesAsync();
+
+        Response.Cookies.Append("OrderTypeId", id.ToString()!);
+
+        return Page();
+    }
+
+    public async Task<IActionResult> OnPostConfirmOrderAsync(int id)
     {
         var order = await _orderRepository.GetAsync(id);
 
@@ -42,12 +50,22 @@ public class OrdersListModel : BaseOrderPageModel
         order.IsCompleted = true;
         await _orderRepository.UpdateAsync(order);
 
-        Orders = await GetOrders();
+        int? orderTypeId = GetOrderTypeId();
+        if(orderTypeId is not null)
+        { 
+            Orders = await GetOrdersAsync(orderTypeId);
+        }
+        else
+        {
+            OrderTypes = await GetOrderTypesAsync();
+        }
+
+        OrderTypes = await GetOrderTypesAsync();
 
         return Page();
     }
 
-    public async Task<IActionResult> OnPostDelete(int id)
+    public async Task<IActionResult> OnPostDeleteAsync(int id)
     {
         var order = await _orderRepository.GetAsync(id);
 
@@ -58,22 +76,32 @@ public class OrdersListModel : BaseOrderPageModel
 
         await _orderRepository.DeleteAsync(order);
 
-        Orders = await GetOrders();
+        Orders = await GetOrdersAsync();
+        OrderTypes = await GetOrderTypesAsync();
 
         return Page();
     }
 
-    private async Task<IEnumerable<Order>> GetOrders()
+    private Task<IEnumerable<OrderType>> GetOrderTypesAsync()
     {
-        var orderTypeId = GetOrderTypeId();
+        return _orderTypeRepository.GetAllAsync();
+    }
 
-        var orders = await _orderRepository.GetAllAsync(o => o.TypeId == orderTypeId);
-        orders = orders.OrderBy(o => o.IsCompleted);
-
-        foreach (var order in Orders)
+    private async Task<IEnumerable<Order>> GetOrdersAsync(int? id = null!)
+    {
+        IEnumerable<Order> orders;
+        if (id is not null)
         {
-            order.SetStatus();
+            ActiveOrderTypeId = id;
+
+            orders = await _orderRepository.GetAllAsync(o => o.TypeId == id);
         }
+        else
+        {
+            orders = await _orderRepository.GetAllAsync();
+        }
+
+        orders = orders.OrderBy(o => o.IsCompleted);
 
         return orders;
     }

@@ -1,4 +1,4 @@
-﻿@page "/orders"
+﻿@page "/orders/"
 @model OrdersListModel
 @{
     ViewData["Title"] = "Orders";
@@ -10,10 +10,19 @@
 }
 
 <div class="types-group">
-    @foreach (var ot in Model.OrderTypes)
-    {
-        <button type="button" class="type-btn">@ot.Name</button>
-    }
+    <form method="post" id="myDIV">
+        @foreach (var ot in Model.OrderTypes)
+        {
+            if(Model.ActiveOrderTypeId == ot.Id)
+            {
+                <button type="submit" class="type-btn active" asp-page-handler="SelectOrderType" asp-route-id="@ot.Id">@ot.Name</button>
+            }
+            else
+            {
+                <button type="submit" class="type-btn" asp-page-handler="SelectOrderType" asp-route-id="@ot.Id">@ot.Name</button>
+            }
+        }
+    </form>
 </div>
 <div class="filter-group">
     <form>
@@ -75,6 +84,18 @@
         }
     </tbody>
 </table>
+
+<script>
+    var header = document.getElementById("myDIV");
+    var btns = header.getElementsByClassName("type-btn");
+    for (var i = 0; i < btns.length; i++) {
+        btns[i].addEventListener("click", function () {
+            var current = document.getElementsByClassName("active");
+            current[0].className = current[0].className.replace(" active", "");
+            this.className += " active";
+        });
+    }
+</script>
 
 @*<ul>
     @foreach(var order in Model.Orders)
