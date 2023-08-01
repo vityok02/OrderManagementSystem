@@ -18,7 +18,7 @@ public class OrderDetailsModel : BaseOrderPageModel
         _orderTypeRepository = orderTypeRepository;
     }
 
-    public async Task<IActionResult> OnGet(int id)
+    public async Task<IActionResult> OnGetAsync(int id)
     {
         if (id is 0)
         {

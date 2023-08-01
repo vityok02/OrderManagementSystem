@@ -16,7 +16,7 @@ namespace OrderManagementSystem.Web.Pages.Orders
             _orderTypeRepository = orderTypeRepository;
         }
 
-        public async Task<IActionResult> OnGet()
+        public async Task<IActionResult> OnGetAsync()
         {
             var orderTypeId = GetOrderTypeId();
 
