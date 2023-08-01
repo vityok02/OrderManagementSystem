@@ -29,10 +29,19 @@ public class OrdersListModel : BaseOrderPageModel
 
     public async Task OnGetAsync(int? id = null!, int? pageIndex = null!)
     {
+
         ActiveOrderTypeId = id;
         Response.Cookies.Append("OrderTypeId", id.ToString()!);
 
-        PageIndex = pageIndex;
+
+        if(pageIndex is null)
+        {
+            PageIndex = 1;
+        }
+        else
+        {
+            PageIndex = pageIndex;
+        }
 
         var orders = await GetOrdersAsync(id);
         OrderTypes = await GetOrderTypesAsync();
