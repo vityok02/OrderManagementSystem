@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using OrderManagementSystem.Models;
 
 namespace OrderManagementSystem.Web.Pages.Orders;
@@ -6,38 +7,42 @@ namespace OrderManagementSystem.Web.Pages.Orders;
 public class OrdersListModel : BaseOrderPageModel
 {
     private readonly IRepository<OrderType> _orderTypeRepository;
+    private readonly IConfiguration _configuration;
 
-    public IEnumerable<Order> Orders { get; set; } = Enumerable.Empty<Order>();
-    public IEnumerable<OrderType> OrderTypes { get; set;} = Enumerable.Empty<OrderType>();
-    public string OrderStatus { get; set; } = string.Empty;
-    public int? ActiveOrderTypeId { get; set; }
+    public PaginatedList<Order> Orders { get; private set; } = default!;
+    public IEnumerable<OrderType> OrderTypes { get; private set;} = Enumerable.Empty<OrderType>();
+    public string OrderStatus { get; private set; } = string.Empty;
+    public int? ActiveOrderTypeId { get; private set; }
+    public int TotalPages => PaginatedList<Order>.TotalPages;
+    public int PageSize => _configuration.GetValue("PageSize", 4);
+    public int? PageIndex { get; private set; }
 
     public OrdersListModel(
         IRepository<Order> repository,
-        IRepository<OrderType> orderTypeRepository)
+        IRepository<OrderType> orderTypeRepository,
+        IConfiguration configuration)
         : base(repository)
     {
         _orderTypeRepository = orderTypeRepository;
+        _configuration = configuration;
     }
 
-    public async Task OnGetAsync()
+    public async Task OnGetAsync(int? id = null!, int? pageIndex = null!)
     {
-        Orders = await GetOrdersAsync();
-        OrderTypes = await GetOrderTypesAsync();
-    }
-
-    public async Task<IActionResult> OnPostSelectOrderType(int? id)
-    {
-        Orders = await GetOrdersAsync(id);
-        
-        OrderTypes = await GetOrderTypesAsync();
-
+        ActiveOrderTypeId = id;
         Response.Cookies.Append("OrderTypeId", id.ToString()!);
 
-        return Page();
+        PageIndex = pageIndex;
+
+        var orders = await GetOrdersAsync(id);
+        OrderTypes = await GetOrderTypesAsync();
+
+        var pageSize = _configuration.GetValue("PageSize", 4);
+
+        Orders = PaginatedList<Order>.Create(orders, pageIndex ?? 1, pageSize);
     }
 
-    public async Task<IActionResult> OnPostConfirmOrderAsync(int id)
+    public async Task<IActionResult> OnPostConfirmOrderAsync(int id, int? otId = null!, int? pageIndex = null!)
     {
         var order = await _orderRepository.GetAsync(id);
 
@@ -49,22 +54,10 @@ public class OrdersListModel : BaseOrderPageModel
         order.IsCompleted = true;
         await _orderRepository.UpdateAsync(order);
 
-        int? orderTypeId = GetOrderTypeId();
-        if(orderTypeId is not null)
-        { 
-            Orders = await GetOrdersAsync(orderTypeId);
-        }
-        else
-        {
-            OrderTypes = await GetOrderTypesAsync();
-        }
-
-        OrderTypes = await GetOrderTypesAsync();
-
-        return Page();
+        return await RedirectToThisPage(otId, pageIndex);
     }
 
-    public async Task<IActionResult> OnPostDeleteAsync(int id)
+    public async Task<IActionResult> OnPostDeleteAsync(int id, int? otId = null!, int? pageIndex = null!)
     {
         var order = await _orderRepository.GetAsync(id);
 
@@ -75,15 +68,27 @@ public class OrdersListModel : BaseOrderPageModel
 
         await _orderRepository.DeleteAsync(order);
 
-        Orders = await GetOrdersAsync();
+        OrderTypes = await GetOrderTypesAsync();
+
+        return await RedirectToThisPage(otId, pageIndex);
+    }
+
+    private async Task<IEnumerable<OrderType>> GetOrderTypesAsync()
+    {
+        return await _orderTypeRepository.GetAllAsync();
+    }
+
+
+    private async Task<PageResult> RedirectToThisPage(int? id = null!, int? pageIndex = null!)
+    {
+        var pageSize = _configuration.GetValue("PageSize", 4);
+
+        var orders = await GetOrdersAsync(id);
+        Orders = PaginatedList<Order>.Create(orders, pageIndex ?? 1, pageSize);
+
         OrderTypes = await GetOrderTypesAsync();
 
         return Page();
-    }
-
-    private Task<IEnumerable<OrderType>> GetOrderTypesAsync()
-    {
-        return _orderTypeRepository.GetAllAsync();
     }
 
     private async Task<IEnumerable<Order>> GetOrdersAsync(int? id = null!)
