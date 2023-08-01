@@ -20,26 +20,27 @@ public class Order : BaseEntity
 
     public bool IsCompleted { get; set; } = false;
     [NotMapped]
-    public string Status { get; set; } = string.Empty;
+    public string Status
+    {
+        get
+        {
+            string orderStatus;
+
+            if (IsCompleted is true)
+            {
+                orderStatus = "Completed";
+            }
+            else
+            {
+                orderStatus = "Not paid";
+            }
+
+            return orderStatus;
+        }
+    }
     public DateTime? CreatedDate { get; set; } = DateTime.UtcNow;
     public OrderType? Type { get; set; }
     public int TypeId { get; set; }
-
-    public void SetStatus()
-    {
-        string orderStatus;
-
-        if (IsCompleted is true)
-        {
-            orderStatus = "Completed";
-        }
-        else
-        {
-            orderStatus = "Not paid";
-        }
-
-        Status = orderStatus;
-    }
 
     public void SetPrice()
     {
