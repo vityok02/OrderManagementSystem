@@ -1,16 +1,15 @@
 ﻿.types-group {
-    font-size: 18px;
+    font-size: 20px;
     padding-top: 60px;
     width: 100%;
     border-bottom: 1px solid #545454;
 }
 
 .type-btn {
-    color: #545454;
-    margin-right: 30px;
+    color: black;
+    padding-inline: 30px;
     border: none;
     background: none;
-    padding: 0;
 }
 
 .filter-group {
@@ -75,7 +74,7 @@ table {
     }
 
     table td.status.success {
-        color: darkgreen;
+        color: green;
     }
 
     table td.status.not-success {
@@ -97,4 +96,10 @@ table {
 
 .delete-icon {
     height: 30px;
+}
+
+.active{
+    color: gray;
+    border-bottom: 1px solid lightgray;
+    margin-bottom: -1px;
 }
