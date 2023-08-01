@@ -15,11 +15,13 @@
         {
             if(Model.ActiveOrderTypeId == ot.Id)
             {
-                <button type="submit" class="type-btn active" asp-page-handler="SelectOrderType" asp-route-id="@ot.Id">@ot.Name</button>
+                <a asp-page="List" class="type-btn active" asp-route-id="@ot.Id">@ot.Name</a>
+                @*<button type="submit" class="type-btn active" asp-page-handler="SelectOrderType" asp-route-id="@ot.Id">@ot.Name</button>*@
             }
             else
             {
-                <button type="submit" class="type-btn" asp-page-handler="SelectOrderType" asp-route-id="@ot.Id">@ot.Name</button>
+                <a asp-page="List" class="type-btn" asp-route-id="@ot.Id">@ot.Name</a>
+                @*<button type="submit" class="type-btn" asp-page-handler="SelectOrderType" asp-route-id="@ot.Id">@ot.Name</button>*@
             }
         }
     </form>
@@ -63,7 +65,7 @@
                     @if (!order.IsCompleted)
                     {
                         <form method="post">
-                            <button asp-page-handler="ConfirmOrder" asp-route-id="@order.Id" class="confirm-btn">Confirm</button>
+                            <button asp-page-handler="ConfirmOrder" asp-route-id="@order.Id" asp-route-otId="@Model.ActiveOrderTypeId" class="confirm-btn">Confirm</button>
                         </form>
                     }
                 </td>
@@ -75,7 +77,7 @@
                 </td>
                 <td>
                     <form method="post">
-                        <button asp-page-handler="Delete" asp-route-id="@order.Id" class="delete-btn">
+                        <button asp-page-handler="Delete" asp-route-id="@order.Id" asp-route-otId="@Model.ActiveOrderTypeId" class="delete-btn">
                             <img class="delete-icon" src="~/images/delete-icon.png">
                         </button>
                     </form>
@@ -85,45 +87,41 @@
     </tbody>
 </table>
 
-<script>
-    var header = document.getElementById("myDIV");
-    var btns = header.getElementsByClassName("type-btn");
-    for (var i = 0; i < btns.length; i++) {
-        btns[i].addEventListener("click", function () {
-            var current = document.getElementsByClassName("active");
-            current[0].className = current[0].className.replace(" active", "");
-            this.className += " active";
-        });
-    }
-</script>
+@{
+    var prevDisabled = !Model.Orders.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.Orders.HasNextPage ? "disabled" : "";
+}
 
-@*<ul>
-    @foreach(var order in Model.Orders)
+<div class="pagination-group">
+    <a asp-page="List"
+        asp-route-pageIndex="@(Model.Orders.PageIndex - 1)"
+        asp-route-id="@Model.ActiveOrderTypeId"
+        class="pagination btn @prevDisabled">
+        Previous
+    </a>
+    @for(int i = 1; i <= Model.TotalPages; i++)
     {
-        <li style="position: relative">
-            <a asp-page="Details" asp-route-id="@order.Id">
-                <div>
-                    @order.CustomerName
-                </div>
-                <div>
-                    @order.Price
-                </div>
-                @if(order.IsCompleted == true)
-                {
-                    <div>
-                        @order.Status
-                    </div>
-                }
+        if (Model.PageIndex == i)
+        {
+            <a asp-page="List" 
+                asp-route-pageIndex="@i" 
+                asp-route-id="@Model.ActiveOrderTypeId" 
+                class="pagination btn disabled">@i
             </a>
-            <div style="position: absolute; bottom: 0; right: 0">
-                <a asp-page="/Orders/Edit" asp-route-id="@order.Id">Edit</a>
-            </div>
-            @if(order.IsCompleted == false)
-            {
-                <form method="post">
-                    <button asp-route-id="@order.Id" asp-page-handler="ConfirmOrder">Confirm</button>
-                </form>
-            }
-        </li>
+        }
+        else
+        {   
+            <a asp-page="List" 
+                asp-route-pageIndex="@i" 
+                asp-route-id="@Model.ActiveOrderTypeId" 
+                class="pagination btn">@i
+            </a>
+        }
     }
-</ul>*@
+    <a asp-page="List" 
+        asp-route-pageIndex="@(Model.Orders.PageIndex + 1)"
+        asp-route-id="@Model.ActiveOrderTypeId"
+        class="pagination btn @nextDisabled">
+        Next
+    </a>
+</div>

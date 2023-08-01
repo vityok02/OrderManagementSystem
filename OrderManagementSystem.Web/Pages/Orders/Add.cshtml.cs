@@ -5,8 +5,10 @@ namespace OrderManagementSystem.Web.Pages.Orders
 {
     public class CreateOrderModel : BaseOrderPageModel
     {
-        public Order Order { get; set; } = null!;
         private readonly IRepository<OrderType> _orderTypeRepository;
+
+        public Order Order { get; private set; } = null!;
+        public int OrderTypeId { get; private set; }
 
         public CreateOrderModel(
             IRepository<Order> repository, 
@@ -19,6 +21,7 @@ namespace OrderManagementSystem.Web.Pages.Orders
         public async Task<IActionResult> OnGetAsync()
         {
             var orderTypeId = GetOrderTypeId();
+            OrderTypeId = orderTypeId;
 
             var orderType = await _orderTypeRepository.GetAsync(orderTypeId);
 
@@ -41,7 +44,7 @@ namespace OrderManagementSystem.Web.Pages.Orders
 
             await _orderRepository.AddAsync(Order);
 
-            return RedirectToPage("List");
+            return RedirectToPage("List", new { id = orderTypeId});
         }
 
         private IActionResult ValidateOrderType(OrderType orderType)

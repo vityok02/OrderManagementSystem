@@ -6,6 +6,7 @@
 }
 
 .type-btn {
+    text-decoration: none;
     color: black;
     padding-inline: 30px;
     border: none;
@@ -26,8 +27,8 @@
         margin-right: 50px;
     }
 
-
-.filter-group .btn {
+.btn {
+    background: none;
     text-decoration: none;
     color: #545454;
     font-size: 18px;
@@ -36,8 +37,11 @@
     border: 1px solid #545454;
     border-radius: 4px;
     align-items: center;
-    margin-right: 15px;
     padding-inline: 10px;
+}
+
+.filter-group .btn {
+    margin-right: 10px;
 }
 
 .confirm-btn {
@@ -56,6 +60,7 @@
 table {
     width: 100%;
     margin-top: 50px;
+    border-bottom: 1px solid #545454;
 }
 
     table thead tr {
@@ -98,8 +103,24 @@ table {
     height: 30px;
 }
 
-.active{
+.active {
     color: gray;
-    border-bottom: 1px solid lightgray;
-    margin-bottom: -1px;
+    border-bottom: 3px solid lightgray;
+}
+
+.pagination-group {
+    margin-top: 20px;
+    justify-content: center;
+    display: flex;
+}
+
+.pagination-group .btn {
+    margin-inline: 3px;
+    text-align: center;
+    display: inline;
+    width:min-content;
+}
+
+.btn.disabled {
+    opacity: 0.5;
 }

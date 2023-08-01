@@ -13,5 +13,5 @@
     <input asp-for="Order.Quantity" type="number" required />
     <label asp-for="Order.Rate">Rate</label>
     <input asp-for="Order.Rate" type="number" required />
-    <button type="submit">Add</button>
+    <button type="submit" asp-route-id="@Model.OrderTypeId">Add</button>
 </form>
