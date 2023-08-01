@@ -25,8 +25,6 @@ public class OrderDetailsModel : BaseOrderPageModel
             return NotFound();
         }
 
-
-
         Order = await _orderRepository.GetAsync(id);
 
         var orderTypeId = GetOrderTypeId();
@@ -37,8 +35,6 @@ public class OrderDetailsModel : BaseOrderPageModel
         {
             return NotFound();
         }
-
-        Order.SetStatus();
 
         return Page();
     }
