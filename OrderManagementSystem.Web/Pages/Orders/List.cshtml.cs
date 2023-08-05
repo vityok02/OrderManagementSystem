@@ -33,7 +33,6 @@ public class OrdersListModel : BaseOrderPageModel
         ActiveOrderTypeId = id;
         Response.Cookies.Append("OrderTypeId", id.ToString()!);
 
-
         if(pageIndex is null)
         {
             PageIndex = 1;
@@ -63,7 +62,8 @@ public class OrdersListModel : BaseOrderPageModel
         order.IsCompleted = true;
         await _orderRepository.UpdateAsync(order);
 
-        return await RedirectToThisPage(otId, pageIndex);
+        //return await RedirectToThisPage(otId, pageIndex);
+        return RedirectToPage("List", new {pageIndex = pageIndex , id = otId});
     }
 
     public async Task<IActionResult> OnPostDeleteAsync(int id, int? otId = null!, int? pageIndex = null!)
@@ -79,7 +79,8 @@ public class OrdersListModel : BaseOrderPageModel
 
         OrderTypes = await GetOrderTypesAsync();
 
-        return await RedirectToThisPage(otId, pageIndex);
+        //return await RedirectToThisPage(otId, pageIndex);
+        return RedirectToPage("List");
     }
 
     private async Task<IEnumerable<OrderType>> GetOrderTypesAsync()
@@ -90,10 +91,8 @@ public class OrdersListModel : BaseOrderPageModel
 
     private async Task<PageResult> RedirectToThisPage(int? id = null!, int? pageIndex = null!)
     {
-        var pageSize = _configuration.GetValue("PageSize", 4);
-
         var orders = await GetOrdersAsync(id);
-        Orders = PaginatedList<Order>.Create(orders, pageIndex ?? 1, pageSize);
+        Orders = PaginatedList<Order>.Create(orders, pageIndex ?? 1, PageSize);
 
         OrderTypes = await GetOrderTypesAsync();
 
