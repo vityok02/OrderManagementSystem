@@ -13,7 +13,7 @@
     <form method="post" id="myDIV">
         @foreach (var ot in Model.OrderTypes)
         {
-            if(Model.ActiveOrderTypeId == ot.Id)
+            if (Model.ActiveOrderTypeId == ot.Id)
             {
                 <a asp-page="List" class="type-btn active" asp-route-id="@ot.Id">@ot.Name</a>
                 @*<button type="submit" class="type-btn active" asp-page-handler="SelectOrderType" asp-route-id="@ot.Id">@ot.Name</button>*@
@@ -94,34 +94,36 @@
 
 <div class="pagination-group">
     <a asp-page="List"
-        asp-route-pageIndex="@(Model.Orders.PageIndex - 1)"
-        asp-route-id="@Model.ActiveOrderTypeId"
-        class="pagination btn @prevDisabled">
+       asp-route-pageIndex="@(Model.Orders.PageIndex - 1)"
+       asp-route-id="@Model.ActiveOrderTypeId"
+       class="pagination btn @prevDisabled">
         Previous
     </a>
-    @for(int i = 1; i <= Model.TotalPages; i++)
+    @for (int i = 1; i <= Model.TotalPages; i++)
     {
         if (Model.PageIndex == i)
         {
-            <a asp-page="List" 
-                asp-route-pageIndex="@i" 
-                asp-route-id="@Model.ActiveOrderTypeId" 
-                class="pagination btn disabled">@i
+            <a asp-page="List"
+               asp-route-pageIndex="@i"
+               asp-route-id="@Model.ActiveOrderTypeId"
+               class="pagination btn disabled">
+                @i
             </a>
         }
         else
-        {   
-            <a asp-page="List" 
-                asp-route-pageIndex="@i" 
-                asp-route-id="@Model.ActiveOrderTypeId" 
-                class="pagination btn">@i
+        {
+            <a asp-page="List"
+               asp-route-pageIndex="@i"
+               asp-route-id="@Model.ActiveOrderTypeId"
+               class="pagination btn">
+                @i
             </a>
         }
     }
-    <a asp-page="List" 
-        asp-route-pageIndex="@(Model.Orders.PageIndex + 1)"
-        asp-route-id="@Model.ActiveOrderTypeId"
-        class="pagination btn @nextDisabled">
+    <a asp-page="List"
+       asp-route-pageIndex="@(Model.Orders.PageIndex + 1)"
+       asp-route-id="@Model.ActiveOrderTypeId"
+       class="pagination btn @nextDisabled">
         Next
     </a>
 </div>
