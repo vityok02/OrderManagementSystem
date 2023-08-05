@@ -1,0 +1,46 @@
+﻿body {
+}
+
+form {
+
+}
+
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}
+
+.form-row input[type=text] {
+    float: right;
+    height: 40px;
+}
+
+.form-row input[type=number] {
+    height: 40px;
+    width: 100px;
+}
+
+    .form-row .btn {
+        height: 30px;
+        font-size: 20px;
+        padding-inline: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+.form-row label {
+    flex: 0 0 12%;
+    font-size: 24px;
+}
+
+.form-row label.btn {
+    flex: 0;
+}
+
+.check-btn {
+    position: absolute;
+    clip: rect(0,0,0,0);
+    pointer-events: none;
+}
