@@ -8,6 +8,7 @@ namespace OrderManagementSystem.Web.Pages.Orders
         private readonly IRepository<OrderType> _orderTypeRepository;
 
         public Order Order { get; private set; } = null!;
+        public IEnumerable<OrderType> OrderTypes { get; private set; } = Enumerable.Empty<OrderType>();
         public int OrderTypeId { get; private set; }
 
         public CreateOrderModel(
@@ -20,31 +21,35 @@ namespace OrderManagementSystem.Web.Pages.Orders
 
         public async Task<IActionResult> OnGetAsync()
         {
-            var orderTypeId = GetOrderTypeId();
-            OrderTypeId = orderTypeId;
+            OrderTypes = await _orderTypeRepository.GetAllAsync();
 
-            var orderType = await _orderTypeRepository.GetAsync(orderTypeId);
+            OrderTypeId = GetOrderTypeId();
 
+            var orderType = await _orderTypeRepository.GetAsync(OrderTypeId);
             ValidateOrderType(orderType!);
 
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(Order order) 
+        public async Task<IActionResult> OnPostAsync(Order order, int orderTypeId) 
         {
-            var orderTypeId = GetOrderTypeId();
+            var activeOrderTypeId = GetOrderTypeId();
+
+            if (orderTypeId is 0)
+            {
+                orderTypeId = activeOrderTypeId;
+            }
 
             var orderType = await _orderTypeRepository.GetAsync(orderTypeId);
 
             ValidateOrderType(orderType!);
 
             Order = order;
-            Order.SetPrice();
             Order.Type = orderType;
 
             await _orderRepository.AddAsync(Order);
 
-            return RedirectToPage("List", new { id = orderTypeId});
+            return RedirectToPage("List", new { id = activeOrderTypeId});
         }
 
         private IActionResult ValidateOrderType(OrderType orderType)

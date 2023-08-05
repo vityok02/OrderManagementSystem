@@ -4,14 +4,60 @@
     ViewData["Title"] = "Add order";
 }
 
-<h1>Details</h1>
+@section styles
+    {
+    <link rel="stylesheet" href="~/css/add.css" asp-append-version="true" />
+}
+
+<h1>Add order</h1>
 
 <form method="post">
-    <label asp-for="Order.CustomerName">Customer name</label>
-    <input asp-for="Order.CustomerName" type="text" required/>
-    <label asp-for="Order.Quantity">Quantity</label>
-    <input asp-for="Order.Quantity" type="number" required />
-    <label asp-for="Order.Rate">Rate</label>
-    <input asp-for="Order.Rate" type="number" required />
+    <div class="form-row">
+        <label asp-for="Order.CustomerName">
+            Customer name
+        </label>
+        <input asp-for="Order.CustomerName" type="text" required class="form-col" />
+    </div>
+    <div class="form-row">
+        <label asp-for="Order.Quantity">
+            Quantity
+        </label>
+        <input asp-for="Order.Quantity" type="number" required class="form-col" />
+    </div>
+    <div class="form-row">
+        <label asp-for="Order.Rate">
+            Rate
+        </label>
+        <input asp-for="Order.Rate" type="number" required class="form-col" />
+    </div>
+    <div class="form-row">
+        <label>
+            Type
+        </label>
+        @foreach (var ot in Model.OrderTypes)
+        {
+            @if (Model.OrderTypeId == ot.Id)
+            {
+                <input id="@ot.Id" type="radio" name="orderTypeId" value="@ot.Id" checked class="btn-check" />
+            }
+            else
+            {
+                <input id="@ot.Id" type="radio" name="orderTypeId" value="@ot.Id" class="btn-check" />
+            }
+            <label for="@ot.Id" class="btn btn-outline-secondary">@ot.Name</label>
+        }
+        @foreach (var ot in Model.OrderTypes)
+        {
+            @if (Model.OrderTypeId == ot.Id)
+            {
+                <input id="@ot.Id" type="radio" name="orderTypeId" value="@ot.Id" checked class="check-btn" />
+            }
+            else
+            {
+                <input id="@ot.Id+10" type="radio" name="orderTypeId" value="@ot.Id" class="check-btn" />
+            }
+            <label for="@ot.Id+10" class="btn">@ot.Name</label>
+        }
+    </div>
     <button type="submit" asp-route-id="@Model.OrderTypeId">Add</button>
 </form>
