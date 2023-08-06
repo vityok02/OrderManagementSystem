@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 var services = builder.Services;
 
-var connectionString = builder.Configuration.GetConnectionString("Default");
+var connectionString = builder.Configuration.GetConnectionString("docker");
 
 services.AddRazorPages();
 
