@@ -10,7 +10,7 @@ public class OrdersListModel : BaseOrderPageModel
     private readonly IConfiguration _configuration;
 
     public PaginatedList<Order> Orders { get; private set; } = default!;
-    public IEnumerable<OrderType> OrderTypes { get; private set;} = Enumerable.Empty<OrderType>();
+    public IEnumerable<OrderType> OrderTypes { get; private set; } = Enumerable.Empty<OrderType>();
     public string OrderStatus { get; private set; } = string.Empty;
     public int? ActiveOrderTypeId { get; private set; }
     public int TotalPages => PaginatedList<Order>.TotalPages;
@@ -33,28 +33,21 @@ public class OrdersListModel : BaseOrderPageModel
         ActiveOrderTypeId = id;
         Response.Cookies.Append("OrderTypeId", id.ToString()!);
 
-        if(pageIndex is null)
-        {
-            PageIndex = 1;
-        }
-        else
-        {
-            PageIndex = pageIndex;
-        }
+        PageIndex = pageIndex ?? 1;
 
         var orders = await GetOrdersAsync(id);
         OrderTypes = await GetOrderTypesAsync();
 
         var pageSize = _configuration.GetValue("PageSize", 4);
 
-        Orders = PaginatedList<Order>.Create(orders, pageIndex ?? 1, pageSize);
+        Orders = PaginatedList<Order>.Create(orders, PageIndex.Value, pageSize);
     }
 
     public async Task<IActionResult> OnPostConfirmOrderAsync(int id, int? otId = null!, int? pageIndex = null!)
     {
         var order = await _orderRepository.GetAsync(id);
 
-        if(order is null)
+        if (order is null)
         {
             return NotFound();
         }
@@ -63,14 +56,14 @@ public class OrdersListModel : BaseOrderPageModel
         await _orderRepository.UpdateAsync(order);
 
         //return await RedirectToThisPage(otId, pageIndex);
-        return RedirectToPage("List", new {pageIndex = pageIndex , id = otId});
+        return RedirectToPage("List", new { pageIndex = pageIndex, id = otId });
     }
 
     public async Task<IActionResult> OnPostDeleteAsync(int id, int? otId = null!, int? pageIndex = null!)
     {
         var order = await _orderRepository.GetAsync(id);
 
-        if(order is null )
+        if (order is null)
         {
             return NotFound();
         }
@@ -112,8 +105,6 @@ public class OrdersListModel : BaseOrderPageModel
         {
             orders = await _orderRepository.GetAllAsync();
         }
-
-        orders = orders.OrderBy(o => o.IsCompleted);
 
         return orders;
     }

@@ -19,6 +19,8 @@ public class Order : BaseEntity
     }
 
     public bool IsCompleted { get; set; } = false;
+    //public bool IsCompleted => Status == "Completed";
+
     [NotMapped]
     public string Status
     {
