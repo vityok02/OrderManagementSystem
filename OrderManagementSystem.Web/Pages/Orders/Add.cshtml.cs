@@ -5,15 +5,15 @@ namespace OrderManagementSystem.Web.Pages.Orders
 {
     public class CreateOrderModel : BaseOrderPageModel
     {
-        private readonly IRepository<OrderType> _orderTypeRepository;
+        private readonly IRepository<WorkType> _orderTypeRepository;
 
         public Order Order { get; private set; } = null!;
-        public IEnumerable<OrderType> OrderTypes { get; private set; } = Enumerable.Empty<OrderType>();
+        public IEnumerable<WorkType> OrderTypes { get; private set; } = Enumerable.Empty<WorkType>();
         public int OrderTypeId { get; private set; }
 
         public CreateOrderModel(
             IRepository<Order> repository, 
-            IRepository<OrderType> orderTypeRepository) 
+            IRepository<WorkType> orderTypeRepository) 
             : base(repository)
         {
             _orderTypeRepository = orderTypeRepository;
@@ -52,7 +52,7 @@ namespace OrderManagementSystem.Web.Pages.Orders
             return RedirectToPage("List", new { id = activeOrderTypeId});
         }
 
-        private IActionResult ValidateOrderType(OrderType orderType)
+        private IActionResult ValidateOrderType(WorkType orderType)
         {
             if(orderType is null)
             {

@@ -5,14 +5,14 @@ namespace OrderManagementSystem.Web.Pages.Orders;
 
 public class OrderDetailsModel : BaseOrderPageModel
 {
-    private readonly IRepository<OrderType> _orderTypeRepository;
+    private readonly IRepository<WorkType> _orderTypeRepository;
 
     public Order? Order { get; set; } = null!;
     public string OrderStatus { get; set; } = string.Empty;
 
     public OrderDetailsModel(
         IRepository<Order> orderRepository,
-        IRepository<OrderType> orderTypeRepository)
+        IRepository<WorkType> orderTypeRepository)
         : base(orderRepository)
     {
         _orderTypeRepository = orderTypeRepository;

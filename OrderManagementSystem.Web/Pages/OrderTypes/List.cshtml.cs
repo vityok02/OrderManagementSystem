@@ -5,9 +5,9 @@ namespace OrderManagementSystem.Web.Pages.OrderTypes
 {
     public class ListModel : BaseOrderTypePageModel
     {
-        public IEnumerable<OrderType> OrderTypes { get; set; } = Enumerable.Empty<OrderType>();
+        public IEnumerable<WorkType> OrderTypes { get; set; } = Enumerable.Empty<WorkType>();
 
-        public ListModel(IRepository<OrderType> repository) : base(repository) { }
+        public ListModel(IRepository<WorkType> repository) : base(repository) { }
 
         public async Task OnGetAsync()
         {

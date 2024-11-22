@@ -5,9 +5,9 @@ namespace OrderManagementSystem.Web.Pages.OrderTypes;
 
 public class BaseOrderTypePageModel : BasePageModel
 {
-    protected readonly IRepository<OrderType> _repository;
+    protected readonly IRepository<WorkType> _repository;
 
-    public BaseOrderTypePageModel(IRepository<OrderType> repository)
+    public BaseOrderTypePageModel(IRepository<WorkType> repository)
     {
         _repository = repository;
     }

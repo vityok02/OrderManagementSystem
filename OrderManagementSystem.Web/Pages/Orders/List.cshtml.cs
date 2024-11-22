@@ -6,11 +6,11 @@ namespace OrderManagementSystem.Web.Pages.Orders;
 
 public class OrdersListModel : BaseOrderPageModel
 {
-    private readonly IRepository<OrderType> _orderTypeRepository;
+    private readonly IRepository<WorkType> _orderTypeRepository;
     private readonly IConfiguration _configuration;
 
     public PaginatedList<Order> Orders { get; private set; } = default!;
-    public IEnumerable<OrderType> OrderTypes { get; private set; } = Enumerable.Empty<OrderType>();
+    public IEnumerable<WorkType> OrderTypes { get; private set; } = Enumerable.Empty<WorkType>();
     public string OrderStatus { get; private set; } = string.Empty;
     public int? ActiveOrderTypeId { get; private set; }
     public int TotalPages => PaginatedList<Order>.TotalPages;
@@ -19,7 +19,7 @@ public class OrdersListModel : BaseOrderPageModel
 
     public OrdersListModel(
         IRepository<Order> repository,
-        IRepository<OrderType> orderTypeRepository,
+        IRepository<WorkType> orderTypeRepository,
         IConfiguration configuration)
         : base(repository)
     {
@@ -76,7 +76,7 @@ public class OrdersListModel : BaseOrderPageModel
         return RedirectToPage("List");
     }
 
-    private async Task<IEnumerable<OrderType>> GetOrderTypesAsync()
+    private async Task<IEnumerable<WorkType>> GetOrderTypesAsync()
     {
         return await _orderTypeRepository.GetAllAsync();
     }

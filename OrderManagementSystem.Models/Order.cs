@@ -1,60 +1,45 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using Domain;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OrderManagementSystem.Models;
 
 public class Order : BaseEntity
 {
-    public string? CustomerName { get; set; }
-    public int Quantity { get; set; }
+    public Customer Customer { get; private set; } = default!;
+
+    public int Quantity { get; private set; }
+
     [Column(TypeName = "money")]
-    public decimal Rate { get; set; }
+    public decimal Rate { get; private set; }
+
     [Column(TypeName = "money")]
-    public decimal Price
+    public decimal Price => Quantity * Rate;
+
+    public bool IsCompleted { get; private set; } = false;
+
+    public Status Status { get; private set; }
+
+    public DateTime? CreatedDate => DateTime.UtcNow;
+
+    public DateTime? CompletedDate { get; private set; }
+
+    public WorkType? Type { get; private set; }
+
+    public int TypeId { get; private set; }
+
+    public Order(Customer customer, WorkType type, int quantity, decimal rate)
     {
-        get
-        {
-            return Rate * Quantity;
-        }
-        set { }
-    }
-
-    public bool IsCompleted { get; set; } = false;
-    //public bool IsCompleted => Status == "Completed";
-
-    [NotMapped]
-    public string Status
-    {
-        get
-        {
-            string orderStatus;
-
-            if (IsCompleted is true)
-            {
-                orderStatus = "Completed";
-            }
-            else
-            {
-                orderStatus = "Not paid";
-            }
-
-            return orderStatus;
-        }
-    }
-    public DateTime? CreatedDate { get; set; } = DateTime.UtcNow;
-    public OrderType? Type { get; set; }
-    public int TypeId { get; set; }
-
-    public void SetPrice()
-    {
-        Price = Rate * Quantity;
-    }
-
-    public void Update(string customerName, int quantity, decimal rate)
-    {
-        CustomerName = customerName;
+        Customer = customer;
+        Type = type;
         Quantity = quantity;
         Rate = rate;
+    }
 
-        Price = Rate * Quantity;
+    public void Update(Customer customer, WorkType type, int quantity, decimal rate)
+    {
+        Customer = customer;
+        Type = type;
+        Quantity = quantity;
+        Rate = rate;
     }
 }

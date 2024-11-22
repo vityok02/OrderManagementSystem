@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OrderManagementSystem.Models;
 
-namespace OrderManagementSystem.Data;
+namespace Infrastructure.Data;
 
 public class AppDbContext : DbContext
 {
     public DbSet<Order> Orders { get; set; } = null!;
-    public DbSet<OrderType> OrderTypes { get; set; } = null!;
+    public DbSet<WorkType> OrderTypes { get; set; } = null!;
 
     public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options)

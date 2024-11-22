@@ -5,14 +5,14 @@ namespace OrderManagementSystem.Web.Pages.OrderTypes;
 
 public class AddModel : BaseOrderTypePageModel
 {
-    public OrderType OrderType { get; set; } = null!;
-    public AddModel(IRepository<OrderType> repository) : base(repository) {}
+    public WorkType OrderType { get; set; } = null!;
+    public AddModel(IRepository<WorkType> repository) : base(repository) {}
 
     public void OnGet()
     {
     }
 
-    public async Task<IActionResult> OnPostAsync(OrderType orderType) 
+    public async Task<IActionResult> OnPostAsync(WorkType orderType) 
     {
         await _repository.AddAsync(orderType);
 
