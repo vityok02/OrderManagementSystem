@@ -50,9 +50,9 @@
         {
             <tr>
                 <td>@order.CustomerName</td>
-                <td>@order.Quantity</td>
-                <td>@order.Rate.ToString("#.##")</td>
-                <td>@order.Price.ToString("#.##")</td>
+                <td>@order.Amount</td>
+                <td>@order.UnitPrice.ToString("#.##")</td>
+                <td>@order.TotalPrice.ToString("#.##")</td>
                 @if (order.IsCompleted)
                 {
                     <td class="status success">@order.Status</td>

@@ -9,10 +9,10 @@
 <form method="post">
     <label asp-for="Order.CustomerName">Customer name</label>
     <input asp-for="Order.CustomerName" type="text" required />
-    <label asp-for="Order.Quantity">Quantity</label>
-    <input asp-for="Order.Quantity" type="number" required />
-    <label asp-for="Order.Rate">Rate</label>
-    <input asp-for="Order.Rate" type="number" required />
+    <label asp-for="Order.Amount">Quantity</label>
+    <input asp-for="Order.Amount" type="number" required />
+    <label asp-for="Order.UnitPrice">Rate</label>
+    <input asp-for="Order.UnitPrice" type="number" required />
     <input asp-for="Order.Id" type="hidden" />
     <input asp-for="Order.TypeId" type="hidden"/>
     <button type="submit">Edit</button>

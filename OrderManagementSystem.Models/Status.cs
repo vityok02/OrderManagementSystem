@@ -3,7 +3,7 @@
 public enum Status
 {
     NotPaid,
-    InProgress,
     Completed,
+    CompletedPartially,
     Cancelled
 }
