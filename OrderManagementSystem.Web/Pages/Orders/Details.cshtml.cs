@@ -1,3 +1,4 @@
+using Domain.WorkLogs;
 using Microsoft.AspNetCore.Mvc;
 using OrderManagementSystem.Models;
 
@@ -7,11 +8,11 @@ public class OrderDetailsModel : BaseOrderPageModel
 {
     private readonly IRepository<WorkType> _orderTypeRepository;
 
-    public Order? Order { get; set; } = null!;
+    public WorkLog? Order { get; set; } = null!;
     public string OrderStatus { get; set; } = string.Empty;
 
     public OrderDetailsModel(
-        IRepository<Order> orderRepository,
+        IRepository<WorkLog> orderRepository,
         IRepository<WorkType> orderTypeRepository)
         : base(orderRepository)
     {
@@ -31,7 +32,7 @@ public class OrderDetailsModel : BaseOrderPageModel
 
         Order!.Type = await _orderTypeRepository.GetAsync(orderTypeId);
 
-        if(Order.Type is null)
+        if(Order.WorkType is null)
         {
             return NotFound();
         }

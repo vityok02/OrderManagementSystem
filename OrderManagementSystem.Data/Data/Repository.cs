@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Domain.Abstract;
+using Microsoft.EntityFrameworkCore;
 using OrderManagementSystem.Models;
 using System.Linq.Expressions;
 

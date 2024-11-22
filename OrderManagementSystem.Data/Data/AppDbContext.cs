@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Domain.WorkLogs;
+using Microsoft.EntityFrameworkCore;
 using OrderManagementSystem.Models;
 
 namespace Infrastructure.Data;
 
 public class AppDbContext : DbContext
 {
-    public DbSet<Order> Orders { get; set; } = null!;
+    public DbSet<WorkLog> Orders { get; set; } = null!;
     public DbSet<WorkType> OrderTypes { get; set; } = null!;
 
     public AppDbContext(DbContextOptions<AppDbContext> options)
@@ -16,7 +17,7 @@ public class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Order>().HasOne(o => o.Type)
+        modelBuilder.Entity<WorkLog>().HasOne(o => o.WorkType)
             .WithMany(o => o.Orders)
             .HasForeignKey(o => o.TypeId);
     }

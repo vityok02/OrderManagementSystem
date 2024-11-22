@@ -1,3 +1,4 @@
+using Domain.WorkLogs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using OrderManagementSystem.Models;
@@ -9,16 +10,16 @@ public class OrdersListModel : BaseOrderPageModel
     private readonly IRepository<WorkType> _orderTypeRepository;
     private readonly IConfiguration _configuration;
 
-    public PaginatedList<Order> Orders { get; private set; } = default!;
+    public PaginatedList<WorkLog> Orders { get; private set; } = default!;
     public IEnumerable<WorkType> OrderTypes { get; private set; } = Enumerable.Empty<WorkType>();
     public string OrderStatus { get; private set; } = string.Empty;
     public int? ActiveOrderTypeId { get; private set; }
-    public int TotalPages => PaginatedList<Order>.TotalPages;
+    public int TotalPages => PaginatedList<WorkLog>.TotalPages;
     public int PageSize => _configuration.GetValue("PageSize", 4);
     public int? PageIndex { get; private set; }
 
     public OrdersListModel(
-        IRepository<Order> repository,
+        IRepository<WorkLog> repository,
         IRepository<WorkType> orderTypeRepository,
         IConfiguration configuration)
         : base(repository)
@@ -40,7 +41,7 @@ public class OrdersListModel : BaseOrderPageModel
 
         var pageSize = _configuration.GetValue("PageSize", 4);
 
-        Orders = PaginatedList<Order>.Create(orders, PageIndex.Value, pageSize);
+        Orders = PaginatedList<WorkLog>.Create(orders, PageIndex.Value, pageSize);
     }
 
     public async Task<IActionResult> OnPostConfirmOrderAsync(int id, int? otId = null!, int? pageIndex = null!)
@@ -85,16 +86,16 @@ public class OrdersListModel : BaseOrderPageModel
     private async Task<PageResult> RedirectToThisPage(int? id = null!, int? pageIndex = null!)
     {
         var orders = await GetOrdersAsync(id);
-        Orders = PaginatedList<Order>.Create(orders, pageIndex ?? 1, PageSize);
+        Orders = PaginatedList<WorkLog>.Create(orders, pageIndex ?? 1, PageSize);
 
         OrderTypes = await GetOrderTypesAsync();
 
         return Page();
     }
 
-    private async Task<IEnumerable<Order>> GetOrdersAsync(int? id = null!)
+    private async Task<IEnumerable<WorkLog>> GetOrdersAsync(int? id = null!)
     {
-        IEnumerable<Order> orders;
+        IEnumerable<WorkLog> orders;
         if (id is not null)
         {
             ActiveOrderTypeId = id;

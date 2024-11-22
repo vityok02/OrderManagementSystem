@@ -1,19 +1,20 @@
 ﻿using Application.Abstract.Queries;
 using Domain.Abstract;
+using Domain.WorkLogs;
 using OrderManagementSystem.Models;
 
 namespace Application.Orders.Queries;
 
 public record GetOrdersQuery() : IQuery<OrdersResponse>;
 
-public record OrdersResponse(IEnumerable<Order> Orders);
+public record OrdersResponse(IEnumerable<WorkLog> Orders);
 
 internal sealed class GetOrdersQueryHandler
     : IQueryHandler<GetOrdersQuery, OrdersResponse>
 {
-    private readonly IRepository<Order> _ordersRepository;
+    private readonly IRepository<WorkLog> _ordersRepository;
 
-    public GetOrdersQueryHandler(IRepository<Order> ordersRepository)
+    public GetOrdersQueryHandler(IRepository<WorkLog> ordersRepository)
     {
         _ordersRepository = ordersRepository;
     }

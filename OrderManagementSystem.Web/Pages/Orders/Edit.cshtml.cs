@@ -1,3 +1,4 @@
+using Domain.WorkLogs;
 using Microsoft.AspNetCore.Mvc;
 using OrderManagementSystem.Models;
 
@@ -5,8 +6,8 @@ namespace OrderManagementSystem.Web.Pages.Orders;
 
 public class OrderEditModel : BaseOrderPageModel
 {
-    public Order Order { get; set; } = null!;
-    public OrderEditModel(IRepository<Order> orderRepository) 
+    public WorkLog Order { get; set; } = null!;
+    public OrderEditModel(IRepository<WorkLog> orderRepository) 
         : base(orderRepository) { }
 
     public async Task<IActionResult> OnGetAsync(int id)
@@ -23,7 +24,7 @@ public class OrderEditModel : BaseOrderPageModel
         return Page();
     }
 
-    public async Task<IActionResult> OnPostAsync(Order order)
+    public async Task<IActionResult> OnPostAsync(WorkLog order)
     {
         if(order is null)
         {

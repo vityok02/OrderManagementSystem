@@ -1,11 +1,15 @@
 ﻿using Domain;
+using Domain.Abstract;
+using OrderManagementSystem.Models;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace OrderManagementSystem.Models;
+namespace Domain.WorkLogs;
 
-public class Order : BaseEntity
+public class WorkLog : BaseEntity
 {
     public Customer Customer { get; private set; } = default!;
+
+    public int CustomerId { get; private set; }
 
     public int Amount { get; private set; }
 
@@ -23,38 +27,21 @@ public class Order : BaseEntity
 
     public DateTime CompletedDate { get; private set; }
 
-    public WorkType? Type { get; private set; }
+    public WorkType? WorkType { get; private set; }
 
     public int TypeId { get; private set; }
 
-    public Order(Customer customer, WorkType type, int amount, decimal rate)
+    public WorkLog(Customer customer, WorkType type, int amount, decimal rate)
     {
         Customer = customer;
-        Type = type;
+        WorkType = type;
         Amount = amount;
         UnitPrice = rate;
     }
 
-    public void Create()
+    public void SetStatus(Status status)
     {
-        Status = Status.NotPaid;
-    }
-
-    public void Cancel()
-    {
-        Status = Status.Cancelled;
-    }
-
-    public void Complete()
-    {
-        IsCompleted = true;
-        CompletedDate = DateTime.UtcNow;
-    }
-
-    public void CompletedPartially(decimal price)
-    {
-        TotalPrice -= price;
-        Status = Status.CompletedPartially;
+        Status = status;
     }
 
     public void UpdatePrice(decimal price)
@@ -62,12 +49,12 @@ public class Order : BaseEntity
         TotalPrice = price;
     }
 
-    public void Update(Customer customer, WorkType type, int quantity, decimal rate)
+    public void Update(Customer customer, WorkType workType, int amount, decimal unitPrice)
     {
         Customer = customer;
-        Type = type;
-        Amount = quantity;
-        UnitPrice = rate;
-        TotalPrice = quantity * rate;
+        WorkType = workType;
+        Amount = amount;
+        UnitPrice = unitPrice;
+        TotalPrice = amount * unitPrice;
     }
 }

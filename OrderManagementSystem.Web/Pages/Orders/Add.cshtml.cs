@@ -1,3 +1,4 @@
+using Domain.WorkLogs;
 using Microsoft.AspNetCore.Mvc;
 using OrderManagementSystem.Models;
 
@@ -7,12 +8,12 @@ namespace OrderManagementSystem.Web.Pages.Orders
     {
         private readonly IRepository<WorkType> _orderTypeRepository;
 
-        public Order Order { get; private set; } = null!;
+        public WorkLog Order { get; private set; } = null!;
         public IEnumerable<WorkType> OrderTypes { get; private set; } = Enumerable.Empty<WorkType>();
         public int OrderTypeId { get; private set; }
 
         public CreateOrderModel(
-            IRepository<Order> repository, 
+            IRepository<WorkLog> repository, 
             IRepository<WorkType> orderTypeRepository) 
             : base(repository)
         {
@@ -31,7 +32,7 @@ namespace OrderManagementSystem.Web.Pages.Orders
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(Order order, int orderTypeId) 
+        public async Task<IActionResult> OnPostAsync(WorkLog order, int orderTypeId) 
         {
             var activeOrderTypeId = GetOrderTypeId();
 

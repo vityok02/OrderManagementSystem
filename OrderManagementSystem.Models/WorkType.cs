@@ -1,7 +1,10 @@
-﻿namespace OrderManagementSystem.Models;
+﻿using Domain.Abstract;
+using Domain.WorkLogs;
+
+namespace OrderManagementSystem.Models;
 
 public class WorkType : BaseEntity
 {
     public string? Name { get; set; }
-    public ICollection<Order>? Orders { get; set; } = new HashSet<Order>();
+    public ICollection<WorkLog>? Orders { get; set; } = new HashSet<WorkLog>();
 }

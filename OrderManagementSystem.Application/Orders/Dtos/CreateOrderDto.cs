@@ -1,8 +1,8 @@
-﻿using OrderManagementSystem.Models;
+﻿using Domain.WorkLogs;
 
 namespace Application.Orders.Dtos;
 
 public record CreateOrderDto()
 {
-    Order Order = new();
+    WorkLog Order = new();
 }
