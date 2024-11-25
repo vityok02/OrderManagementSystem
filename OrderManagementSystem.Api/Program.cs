@@ -1,7 +1,11 @@
 using Application;
-using Application.Orders.Queries;
+using Application.Orders.Commands;
+using Application.WorkLogs.CreateWorkLog;
+using Application.WorkLogs.GetWorkLog;
+using Application.WorkLogs.GetWorkLogs;
 using Infrastructure;
 using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,20 +28,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-app.MapGet("/orders", async (ISender sender) =>
-{
-    var orders = await sender.Send(new GetOrdersQuery());
-
-    return Results.Ok(orders.Value);
-});
-
-app.MapPost("/orders", async (ISender sender) =>
-{
-    var order = await sender.Send(new CreateOrderCommand());
-
-    return Results.Created(order.Value);
-});
 
 app.UseHttpsRedirection();
 
