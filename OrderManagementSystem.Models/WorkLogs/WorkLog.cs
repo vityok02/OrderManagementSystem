@@ -27,9 +27,12 @@ public class WorkLog : BaseEntity
 
     public DateTime CompletedDate { get; private set; }
 
-    public WorkType? WorkType { get; private set; }
+    public WorkType WorkType { get; private set; } = default!;
 
     public int TypeId { get; private set; }
+
+    public WorkLog()
+    { }
 
     public WorkLog(Customer customer, WorkType type, int amount, decimal rate)
     {
