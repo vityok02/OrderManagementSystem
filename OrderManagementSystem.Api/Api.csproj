@@ -12,10 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Endpoints\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\OrderManagementSystem.Application\Application.csproj" />
     <ProjectReference Include="..\OrderManagementSystem.Data\Infrastructure.csproj" />
     <ProjectReference Include="..\OrderManagementSystem.Models\Domain.csproj" />

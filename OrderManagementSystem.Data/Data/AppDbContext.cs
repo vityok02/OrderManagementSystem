@@ -1,6 +1,6 @@
-﻿using Domain.WorkLogs;
+﻿using Domain;
+using Domain.WorkLogs;
 using Microsoft.EntityFrameworkCore;
-using OrderManagementSystem.Models;
 
 namespace Infrastructure.Data;
 

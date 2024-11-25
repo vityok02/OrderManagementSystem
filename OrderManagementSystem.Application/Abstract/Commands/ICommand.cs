@@ -1,5 +1,5 @@
-﻿using MediatR;
-using Domain.Abstract;
+﻿using Domain.Abstract;
+using MediatR;
 
 namespace Application.Abstract.Commands;
 
