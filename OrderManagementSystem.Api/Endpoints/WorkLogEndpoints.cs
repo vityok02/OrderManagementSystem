@@ -11,49 +11,62 @@ public static class WorkLogEndpoints
 {
     public static void Map(WebApplication app)
     {
-        var group = app.MapGroup("/worklogs");
+        var group = app.MapGroup("/worklogs")
+            .WithTags("WorkLogs Group")
+            .WithOpenApi();
 
-        group.MapGet("/worklogs", async (ISender sender) =>
-        {
-            var orders = await sender.Send(new GetOrdersQuery());
+        group.MapGet("", GetWorkLogs)
+            .WithName("GetWorkLogs");
 
-            return Results.Ok(orders.Value);
-        });
-
-        group.MapGet("/worklogs/{id:int}", async (
-            ISender sender,
-            int id) =>
-        {
-            var order = await sender.Send(new GetWorkLogQuery(id));
-
-            return order.IsSuccess
-                ? Results.Ok(order.Value)
-                : Results.NotFound();
-        })
+        group.MapGet("{id:int}", GetWorkLog)
             .WithName("GetWorkLog");
 
-        group.MapPost("/worklogs", async (
-            HttpContext context,
-            LinkGenerator linkGenerator,
-            ISender sender,
-            ILogger<Program> logger,
-            [FromBody] CreateWorkLogDto dto) =>
-        {
-            var workLog = await sender
-                .Send(new CreateWorkLogCommand(dto));
-
-            if (workLog.IsFailure)
-            {
-                logger
-                    .LogError("Failed to create work log: {Error}", workLog.Error);
-            }
-
-            var link = linkGenerator
-                .GetPathByName(context, "GetWorkLog", new { id = workLog.Value.Id });
-
-            return Results
-                .Created(link, workLog);
-        })
+        group.MapPost("", CreateWorkLog)
             .WithName("CreateWorkLog");
+    }
+
+    public static async Task<IResult> GetWorkLogs(
+        ISender sender)
+    {
+        var result = await sender.Send(new GetOrdersQuery());
+        return result.IsSuccess
+            ? Results.Ok(result.Value)
+            : Results.NotFound();
+    }
+
+    public static async Task<IResult> GetWorkLog(
+        ISender sender,
+        int id)
+    {
+        var order = await sender.Send(new GetWorkLogQuery(id));
+
+        return order.IsSuccess
+            ? Results.Ok(order.Value)
+            : Results.NotFound();
+    }
+
+    public static async Task<IResult> CreateWorkLog(
+        HttpContext context,
+        LinkGenerator linkGenerator,
+        ISender sender,
+        [FromServices] ILogger logger,
+        [FromBody] CreateWorkLogDto dto)
+    {
+        var workLog = await sender
+            .Send(new CreateWorkLogCommand(dto));
+
+        if (workLog.IsFailure)
+        {
+            logger
+                .LogError("Failed to create work log: {Error}", workLog.Error);
+
+            return Results.BadRequest(workLog.Error);
+        }
+
+        var link = linkGenerator
+            .GetPathByName(context, "GetWorkLog", new { id = workLog.Value.Id });
+
+        return Results
+            .Created(link, workLog);
     }
 }

@@ -1,11 +1,6 @@
+using Api.Endpoints;
 using Application;
-using Application.Orders.Commands;
-using Application.WorkLogs.CreateWorkLog;
-using Application.WorkLogs.GetWorkLog;
-using Application.WorkLogs.GetWorkLogs;
 using Infrastructure;
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,5 +29,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+WorkLogEndpoints.Map(app);
 
 app.Run();
