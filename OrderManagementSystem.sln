@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "OrderMana
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "OrderManagementSystem.Models\Domain.csproj", "{EEA56933-BE90-4AED-AD17-FD8A5D70055E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderManagementSystem.Web", "OrderManagementSystem.Web\OrderManagementSystem.Web.csproj", "{8A12F557-0008-4D4D-BB88-6E11DA986347}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "OrderManagementSystem.Api\Api.csproj", "{EFB6209A-9066-4808-AE8D-2F1938100A01}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "OrderManagementSystem.Application\Application.csproj", "{29EB8EE3-FCB6-4A29-A140-CAADC4D112AF}"
@@ -27,10 +25,6 @@ Global
 		{EEA56933-BE90-4AED-AD17-FD8A5D70055E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EEA56933-BE90-4AED-AD17-FD8A5D70055E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EEA56933-BE90-4AED-AD17-FD8A5D70055E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8A12F557-0008-4D4D-BB88-6E11DA986347}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8A12F557-0008-4D4D-BB88-6E11DA986347}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8A12F557-0008-4D4D-BB88-6E11DA986347}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8A12F557-0008-4D4D-BB88-6E11DA986347}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EFB6209A-9066-4808-AE8D-2F1938100A01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EFB6209A-9066-4808-AE8D-2F1938100A01}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EFB6209A-9066-4808-AE8D-2F1938100A01}.Release|Any CPU.ActiveCfg = Release|Any CPU
