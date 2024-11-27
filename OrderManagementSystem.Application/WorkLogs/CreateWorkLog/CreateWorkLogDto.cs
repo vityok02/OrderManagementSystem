@@ -3,7 +3,8 @@
 namespace Application.WorkLogs.CreateWorkLog;
 
 public record CreateWorkLogDto(
-    Customer Customer,
-    WorkType WorkType,
+    string CustomerName,
+    string? Contacts,
+    int WorkTypeId,
     int Amount,
     decimal UnitPrice);
