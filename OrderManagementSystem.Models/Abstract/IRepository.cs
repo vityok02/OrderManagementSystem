@@ -9,5 +9,6 @@ public interface IRepository<TEntity> where TEntity : BaseEntity
     Task CreateAsync(TEntity entity, CancellationToken token);
     void Update(TEntity entity);
     void Delete(TEntity entity);
+    Task<bool> AnyAsync(CancellationToken token);
     Task SaveChangesAsync(CancellationToken token);
 }
