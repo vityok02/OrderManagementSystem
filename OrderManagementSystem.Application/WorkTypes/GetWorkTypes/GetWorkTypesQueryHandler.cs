@@ -1,7 +1,6 @@
 ﻿using Application.Abstract.Queries;
 using Domain;
 using Domain.Abstract;
-using OrderManagementSystem.Models;
 
 namespace Application.WorkTypes.GetWorkTypes;
 

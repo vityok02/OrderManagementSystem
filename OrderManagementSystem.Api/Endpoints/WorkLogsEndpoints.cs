@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Endpoints;
 
-public static class WorkLogEndpoints
+public static class WorkLogsEndpoints
 {
     public static void Map(WebApplication app)
     {
@@ -25,7 +25,7 @@ public static class WorkLogEndpoints
             .WithName("CreateWorkLog");
     }
 
-    public static async Task<IResult> GetWorkLogs(
+    private static async Task<IResult> GetWorkLogs(
         ISender sender)
     {
         var result = await sender.Send(new GetOrdersQuery());
@@ -34,7 +34,7 @@ public static class WorkLogEndpoints
             : Results.NotFound();
     }
 
-    public static async Task<IResult> GetWorkLog(
+    private static async Task<IResult> GetWorkLog(
         ISender sender,
         int id)
     {
@@ -45,11 +45,10 @@ public static class WorkLogEndpoints
             : Results.NotFound();
     }
 
-    public static async Task<IResult> CreateWorkLog(
+    private static async Task<IResult> CreateWorkLog(
         HttpContext context,
         LinkGenerator linkGenerator,
         ISender sender,
-        [FromServices] ILogger logger,
         [FromBody] CreateWorkLogDto dto)
     {
         var workLog = await sender
@@ -57,9 +56,6 @@ public static class WorkLogEndpoints
 
         if (workLog.IsFailure)
         {
-            logger
-                .LogError("Failed to create work log: {Error}", workLog.Error);
-
             return Results.BadRequest(workLog.Error);
         }
 

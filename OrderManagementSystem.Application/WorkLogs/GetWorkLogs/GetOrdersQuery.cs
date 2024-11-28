@@ -2,4 +2,4 @@
 
 namespace Application.WorkLogs.GetWorkLogs;
 
-public record GetOrdersQuery() : IQuery<OrdersResponse>;
+public record GetOrdersQuery() : IQuery<WorkLogsResponse>;

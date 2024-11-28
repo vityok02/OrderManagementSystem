@@ -30,6 +30,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-WorkLogEndpoints.Map(app);
+WorkLogsEndpoints.Map(app);
+WorkTypesEndpoints.Map(app);
 
 app.Run();

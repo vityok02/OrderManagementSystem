@@ -3,7 +3,6 @@ using Application.Orders.Commands;
 using Domain;
 using Domain.Abstract;
 using Domain.WorkLogs;
-using OrderManagementSystem.Models;
 
 namespace Application.WorkLogs.CreateWorkLog;
 
@@ -42,7 +41,8 @@ internal class CreateWorkLogCommandHandler
             dto.Amount,
             dto.UnitPrice);
 
-        await _workLogRepository.AddAsync(workLog, cancellationToken);
+        await _workLogRepository.CreateAsync(workLog, cancellationToken);
+        await _workLogRepository.SaveChangesAsync(cancellationToken);
 
         return Result<WorkLog>.Success(workLog);
     }

@@ -1,11 +1,10 @@
 ﻿using Application.Abstract.Queries;
 using Domain.Abstract;
 using Domain.WorkLogs;
-using OrderManagementSystem.Models;
 
 namespace Application.WorkLogs.GetWorkLog;
 
-internal class GetWorkLogQueryHandler : IQueryHandler<GetWorkLogQuery, WorkLogResponse>
+internal class GetWorkLogQueryHandler : IQueryHandler<GetWorkLogQuery, WorkLogDto>
 {
     private readonly IRepository<WorkLog> _workLogRepository;
 
@@ -14,21 +13,22 @@ internal class GetWorkLogQueryHandler : IQueryHandler<GetWorkLogQuery, WorkLogRe
         _workLogRepository = workLogRepository;
     }
 
-    public async Task<Result<WorkLogResponse>> Handle(GetWorkLogQuery request, CancellationToken cancellationToken)
+    public async Task<Result<WorkLogDto>> Handle(GetWorkLogQuery request, CancellationToken cancellationToken)
     {
         var workLog = await _workLogRepository.GetAsync(request.Id, cancellationToken);
         if (workLog is null)
         {
-            return Result<WorkLogResponse>.Failure("Work log not found.");
+            return Result<WorkLogDto>.Failure("Work log not found.");
         }
 
-        var response = new WorkLogResponse(
-            workLog.Customer,
-            workLog.WorkType,
+        var response = new WorkLogDto(
+            workLog.Customer.Name,
+            workLog.Customer.PhoneNumber,
+            workLog.WorkType.Name,
             workLog.Amount,
             workLog.UnitPrice,
             workLog.TotalPrice);
 
-        return Result<WorkLogResponse>.Success(response);
+        return Result<WorkLogDto>.Success(response);
     }
 }
