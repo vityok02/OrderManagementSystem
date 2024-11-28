@@ -1,4 +1,4 @@
-﻿namespace OrderManagementSystem.Models;
+﻿namespace Domain;
 
 public enum Status
 {
