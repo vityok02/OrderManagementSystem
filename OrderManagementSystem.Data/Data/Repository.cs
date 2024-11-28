@@ -54,6 +54,11 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : BaseEnti
         _dbContext.Set<TEntity>().Remove(entity);
     }
 
+    public async Task<bool> AnyAsync(CancellationToken token)
+    {
+        return await _dbContext.Set<TEntity>().AnyAsync(token);
+    }
+
     public async Task SaveChangesAsync(CancellationToken token)
     {
         await _dbContext.SaveChangesAsync(token);

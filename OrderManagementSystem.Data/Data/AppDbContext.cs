@@ -6,8 +6,8 @@ namespace Infrastructure.Data;
 
 public class AppDbContext : DbContext
 {
-    public DbSet<WorkLog> Orders { get; set; } = null!;
-    public DbSet<WorkType> OrderTypes { get; set; } = null!;
+    public DbSet<WorkLog> WorkLogs { get; set; } = null!;
+    public DbSet<WorkType> WorkTypes { get; set; } = null!;
 
     public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options)

@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Infrastructure.Data;
 using Domain.Abstract;
+using Domain.WorkLogs;
 
 namespace Infrastructure;
 
@@ -16,6 +17,7 @@ public static class DependencyInjection
             opts.UseSqlServer(configuration.GetConnectionString("docker")));
 
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+        services.AddScoped<IWorkLogRepository, WorkLogRepository>();
 
         return services;
     }
