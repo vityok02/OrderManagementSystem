@@ -1,6 +1,4 @@
-﻿using static System.Runtime.InteropServices.JavaScript.JSType;
-
-namespace Domain.Abstract;
+﻿namespace Domain.Abstract;
 
 public class Result
 {

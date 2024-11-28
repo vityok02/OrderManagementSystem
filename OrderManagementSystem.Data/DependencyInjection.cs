@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Infrastructure.Data;
-using OrderManagementSystem.Models;
+using Domain.Abstract;
 
 namespace Infrastructure;
 

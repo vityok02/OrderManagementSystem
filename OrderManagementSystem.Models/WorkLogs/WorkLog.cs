@@ -1,5 +1,4 @@
-﻿using Domain;
-using Domain.Abstract;
+﻿using Domain.Abstract;
 using OrderManagementSystem.Models;
 using System.ComponentModel.DataAnnotations.Schema;
 

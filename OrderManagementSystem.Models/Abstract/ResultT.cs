@@ -10,11 +10,6 @@ public class Result<T> : Result
         Value = value;
     }
 
-    private Result()
-    {
-        IsSuccess = true;
-    }
-
     private Result(Error error)
     {
         IsSuccess = false;
@@ -24,7 +19,7 @@ public class Result<T> : Result
     private Result(string code, string? description = null)
     {
         IsSuccess = false;
-        Error = new(code, description);
+        Error = new Error(code, description);
     }
 
     public static Result<T> Success(T value) => new(value);

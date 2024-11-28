@@ -1,6 +1,5 @@
 ﻿using Domain.Abstract;
 using Microsoft.EntityFrameworkCore;
-using OrderManagementSystem.Models;
 using System.Linq.Expressions;
 
 namespace Infrastructure.Data;
@@ -8,14 +7,17 @@ namespace Infrastructure.Data;
 public class Repository<TEntity> : IRepository<TEntity> where TEntity : BaseEntity
 {
     private readonly AppDbContext _dbContext;
+
     public Repository(AppDbContext dbContext)
     {
         _dbContext = dbContext;
     }
 
-    public async Task AddAsync(TEntity entity, CancellationToken token)
+    public async Task CreateAsync(TEntity entity, CancellationToken token)
     {
-        await _dbContext.Set<TEntity>().AddAsync(entity, token);
+        await _dbContext
+            .Set<TEntity>()
+            .AddAsync(entity, token);
     }
 
     public void Update(TEntity entity)
@@ -50,5 +52,10 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : BaseEnti
     public void Delete(TEntity entity)
     {
         _dbContext.Set<TEntity>().Remove(entity);
+    }
+
+    public async Task SaveChangesAsync(CancellationToken token)
+    {
+        await _dbContext.SaveChangesAsync(token);
     }
 }

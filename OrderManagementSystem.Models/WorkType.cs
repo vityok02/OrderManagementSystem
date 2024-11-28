@@ -5,6 +5,14 @@ namespace Domain;
 
 public class WorkType : BaseEntity
 {
-    public string Name { get; set; } = default!;
-    public ICollection<WorkLog>? Orders { get; set; } = new HashSet<WorkLog>();
+    public string Name { get; private set; } = default!;
+    public ICollection<WorkLog>? Orders { get; private set; } = [];
+
+    public WorkType()
+    { }
+
+    public WorkType(string name)
+    {
+        Name = name;
+    }
 }
