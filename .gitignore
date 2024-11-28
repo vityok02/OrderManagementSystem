@@ -364,3 +364,4 @@ FodyWeavers.xsd
 /OrderManagementSystem.Web/OrderManagementSystem.Web.csproj
 /OrderManagementSystem.Web/OrderManagementSystem.Web.csproj
 /OrderManagementSystem.Api/appsettings.json
+/.editorconfig
