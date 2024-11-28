@@ -1,3 +1,3 @@
 ﻿namespace Application.WorkTypes.CreateWorkType;
 
-public record WorkTypeDto(string Name);
+public record WorkTypeDto(int Id, string Name);

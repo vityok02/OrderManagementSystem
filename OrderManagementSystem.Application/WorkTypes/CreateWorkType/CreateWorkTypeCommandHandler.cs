@@ -5,7 +5,7 @@ using Domain.Abstract;
 namespace Application.WorkTypes.CreateWorkType;
 
 internal class CreateWorkTypeCommandHandler
-    : ICommandHandler<CreateWorkTypeCommand, WorkType>
+    : ICommandHandler<CreateWorkTypeCommand, WorkTypeDto>
 {
     private readonly IRepository<WorkType> _workTypeRepository;
 
@@ -14,13 +14,13 @@ internal class CreateWorkTypeCommandHandler
         _workTypeRepository = workTypeRepository;
     }
 
-    public async Task<Result<WorkType>> Handle(CreateWorkTypeCommand request, CancellationToken cancellationToken)
+    public async Task<Result<WorkTypeDto>> Handle(CreateWorkTypeCommand request, CancellationToken cancellationToken)
     {
         var workType = new WorkType(request.WorkTypeDto.Name);
 
         await _workTypeRepository.CreateAsync(workType, cancellationToken);
         await _workTypeRepository.SaveChangesAsync(cancellationToken);
 
-        return Result<WorkType>.Success(workType);
+        return Result<WorkTypeDto>.Success(workType.ToDto());
     }
 }

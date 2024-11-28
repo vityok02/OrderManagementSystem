@@ -1,7 +1,6 @@
 ﻿using Application.Abstract.Commands;
-using Application.WorkLogs.CreateWorkLog;
 using Domain.WorkLogs;
 
-namespace Application.Orders.Commands;
+namespace Application.WorkLogs.CreateWorkLog;
 
 public record CreateWorkLogCommand(CreateWorkLogDto WorkLogDto) : ICommand<WorkLog>;

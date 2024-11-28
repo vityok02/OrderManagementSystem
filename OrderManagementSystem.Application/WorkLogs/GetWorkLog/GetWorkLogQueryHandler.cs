@@ -6,9 +6,9 @@ namespace Application.WorkLogs.GetWorkLog;
 
 internal class GetWorkLogQueryHandler : IQueryHandler<GetWorkLogQuery, WorkLogDto>
 {
-    private readonly IRepository<WorkLog> _workLogRepository;
+    private readonly IWorkLogRepository _workLogRepository;
 
-    public GetWorkLogQueryHandler(IRepository<WorkLog> workLogRepository)
+    public GetWorkLogQueryHandler(IWorkLogRepository workLogRepository)
     {
         _workLogRepository = workLogRepository;
     }

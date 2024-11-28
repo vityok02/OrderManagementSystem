@@ -7,9 +7,9 @@ namespace Application.WorkLogs.GetWorkLogs;
 internal sealed class GetWorkLogsQueryHandler
     : IQueryHandler<GetOrdersQuery, WorkLogsResponse>
 {
-    private readonly IRepository<WorkLog> _workLogsRepository;
+    private readonly IWorkLogRepository _workLogsRepository;
 
-    public GetWorkLogsQueryHandler(IRepository<WorkLog> workLogsRepository)
+    public GetWorkLogsQueryHandler(IWorkLogRepository workLogsRepository)
     {
         _workLogsRepository = workLogsRepository;
     }

@@ -1,5 +1,4 @@
-﻿using Application.Orders.Commands;
-using Application.WorkLogs.CreateWorkLog;
+﻿using Application.WorkLogs.CreateWorkLog;
 using Application.WorkLogs.GetWorkLog;
 using Application.WorkLogs.GetWorkLogs;
 using MediatR;
@@ -22,7 +21,8 @@ public static class WorkLogsEndpoints
             .WithName("GetWorkLog");
 
         group.MapPost("", CreateWorkLog)
-            .WithName("CreateWorkLog");
+            .WithName("CreateWorkLog")
+            .AddEndpointFilter<EnsureWorkTypesExistFilter>();
     }
 
     private static async Task<IResult> GetWorkLogs(

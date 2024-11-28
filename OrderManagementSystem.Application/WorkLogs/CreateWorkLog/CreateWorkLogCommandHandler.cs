@@ -1,5 +1,4 @@
 ﻿using Application.Abstract.Commands;
-using Application.Orders.Commands;
 using Domain;
 using Domain.Abstract;
 using Domain.WorkLogs;
@@ -9,11 +8,11 @@ namespace Application.WorkLogs.CreateWorkLog;
 internal class CreateWorkLogCommandHandler
     : ICommandHandler<CreateWorkLogCommand, WorkLog>
 {
-    private readonly IRepository<WorkLog> _workLogRepository;
+    private readonly IWorkLogRepository _workLogRepository;
     private readonly IRepository<WorkType> _workTypeRepository;
 
     public CreateWorkLogCommandHandler(
-        IRepository<WorkLog> workLogRepository,
+        IWorkLogRepository workLogRepository,
         IRepository<WorkType> workTypeRepository)
     {
         _workLogRepository = workLogRepository;
@@ -28,6 +27,12 @@ internal class CreateWorkLogCommandHandler
 
         var workType = await _workTypeRepository
             .GetAsync(dto.WorkTypeId, cancellationToken);
+
+        if (!await _workTypeRepository.AnyAsync(cancellationToken))
+        {
+            return Result<WorkLog>
+                .Failure(CreateWorkLogErrors.WorkTypesEmpty);
+        }
 
         if (workType is null)
         {

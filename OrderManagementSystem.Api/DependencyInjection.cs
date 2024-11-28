@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using System.Reflection.Metadata;
+﻿namespace Api;
 
 public static class DependencyInjection
 {
