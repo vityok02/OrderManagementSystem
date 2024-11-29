@@ -17,8 +17,13 @@ public class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<WorkLog>().HasOne(o => o.WorkType)
+        modelBuilder.Entity<WorkLog>()
+            .HasOne(o => o.WorkType)
             .WithMany(o => o.Orders)
             .HasForeignKey(o => o.TypeId);
+
+        modelBuilder.Entity<WorkLog>()
+            .Property(w => w.Status)
+            .HasConversion<string>();
     }
 }

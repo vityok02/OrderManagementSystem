@@ -31,13 +31,13 @@ internal class CreateWorkLogCommandHandler
         if (!await _workTypeRepository.AnyAsync(cancellationToken))
         {
             return Result<WorkLogDto>
-                .Failure(CreateWorkLogErrors.WorkTypesEmpty);
+                .Failure(WorkLogErrors.WorkTypesEmpty);
         }
 
         if (workType is null)
         {
             return Result<WorkLogDto>
-                .Failure(CreateWorkLogErrors.WorkTypeNotFound(dto.WorkTypeId));
+                .Failure(WorkLogErrors.WorkTypeNotFound(dto.WorkTypeId));
         }
 
         var workLog = new WorkLog(

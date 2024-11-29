@@ -1,7 +1,9 @@
-﻿using Application.WorkLogs.CreateWorkLog;
+﻿using Api.Endpoints.Filters;
+using Application.WorkLogs;
+using Application.WorkLogs.CreateWorkLog;
 using Application.WorkLogs.GetWorkLog;
 using Application.WorkLogs.GetWorkLogs;
-using Domain.Abstract;
+using Application.WorkLogs.UpdateStatus;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,11 +21,35 @@ public static class WorkLogsEndpoints
             .WithName("GetWorkLogs");
 
         group.MapGet("{id:int}", GetWorkLog)
-            .WithName("GetWorkLog");
+            .WithName("GetWorkLog")
+            .AddEndpointFilter<EnsureWorkLogExistFilter>()
+            .Produces<WorkLogDto>(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status404NotFound);
 
         group.MapPost("", CreateWorkLog)
             .WithName("CreateWorkLog")
             .AddEndpointFilter<EnsureWorkTypesExistFilter>();
+
+        group.MapPut("{id:int}/status", UpdateStatus)
+            .WithName("UpdateStatus")
+            .AddEndpointFilter<EnsureWorkLogExistFilter>()
+            .Produces(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status400BadRequest)
+            .Produces(StatusCodes.Status404NotFound);
+    }
+
+    // TOTO: WARNING: Use FromBody instead of FromQuery
+    private static async Task<IResult> UpdateStatus(
+        ISender sender,
+        [FromRoute] int id,
+        [FromQuery] int status)
+    {
+        var result = await sender
+            .Send(new UpdateStatusCommand(id, status));
+
+        return result.IsSuccess
+            ? Results.Ok()
+            : Results.BadRequest();
     }
 
     private static async Task<IResult> GetWorkLogs(
@@ -37,12 +63,12 @@ public static class WorkLogsEndpoints
 
     private static async Task<IResult> GetWorkLog(
         ISender sender,
-        int id)
+        [FromRoute] int id)
     {
-        var order = await sender.Send(new GetWorkLogQuery(id));
+        var result = await sender.Send(new GetWorkLogQuery(id));
 
-        return order.IsSuccess
-            ? Results.Ok(order.Value)
+        return result.IsSuccess
+            ? Results.Ok(result.Value)
             : Results.NotFound();
     }
 
@@ -64,6 +90,6 @@ public static class WorkLogsEndpoints
             .GetPathByName(context, "GetWorkLog", new { id = result.Value.Id });
 
         return Results
-            .Created(link, result);
+            .Created(link, result.Value);
     }
 }

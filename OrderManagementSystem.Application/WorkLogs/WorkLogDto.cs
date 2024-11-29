@@ -1,4 +1,6 @@
-﻿namespace Application.WorkLogs;
+﻿using Domain;
+
+namespace Application.WorkLogs;
 
 public record WorkLogDto(
     int Id,
@@ -7,4 +9,5 @@ public record WorkLogDto(
     string WorkType,
     int Amount,
     decimal UnitPrice,
-    decimal TotalPrice);
+    decimal TotalPrice,
+    Status Status);

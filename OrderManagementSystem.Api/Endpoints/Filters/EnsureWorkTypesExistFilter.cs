@@ -1,7 +1,8 @@
-﻿using Domain;
+﻿using Application.WorkLogs.CreateWorkLog;
+using Domain;
 using Domain.Abstract;
 
-namespace Api;
+namespace Api.Endpoints.Filters;
 
 public class EnsureWorkTypesExistFilter : IEndpointFilter
 {
@@ -15,7 +16,7 @@ public class EnsureWorkTypesExistFilter : IEndpointFilter
     }
 
     public async ValueTask<object?> InvokeAsync(
-        EndpointFilterInvocationContext efiContext, 
+        EndpointFilterInvocationContext efiContext,
         EndpointFilterDelegate next)
     {
         var cancellationToken = efiContext.HttpContext.RequestAborted;

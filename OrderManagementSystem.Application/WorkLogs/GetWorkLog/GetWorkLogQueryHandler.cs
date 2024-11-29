@@ -16,19 +16,16 @@ internal class GetWorkLogQueryHandler : IQueryHandler<GetWorkLogQuery, WorkLogDt
     public async Task<Result<WorkLogDto>> Handle(GetWorkLogQuery request, CancellationToken cancellationToken)
     {
         var workLog = await _workLogRepository.GetAsync(request.Id, cancellationToken);
-        if (workLog is null)
-        {
-            return Result<WorkLogDto>.Failure("Work log not found.");
-        }
 
         var response = new WorkLogDto(
-            workLog.Id,
+            workLog!.Id,
             workLog.Customer.Name,
             workLog.Customer.PhoneNumber,
             workLog.WorkType.Name,
             workLog.Amount,
             workLog.UnitPrice,
-            workLog.TotalPrice);
+            workLog.TotalPrice,
+            workLog.Status);
 
         return Result<WorkLogDto>.Success(response);
     }

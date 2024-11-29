@@ -14,6 +14,7 @@ public static class WorkLogExtensions
             workLog.WorkType.Name,
             workLog.Amount,
             workLog.UnitPrice,
-            workLog.TotalPrice);
+            workLog.TotalPrice,
+            workLog.Status);
     }
 }

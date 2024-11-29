@@ -23,7 +23,7 @@ public class WorkLog : BaseEntity
 
     public DateTime CreatedDate => DateTime.UtcNow;
 
-    public DateTime CompletedDate { get; private set; }
+    public DateTime UpdateStatusDate { get; private set; }
 
     public WorkType WorkType { get; private set; } = default!;
 
@@ -43,6 +43,7 @@ public class WorkLog : BaseEntity
     public void SetStatus(Status status)
     {
         Status = status;
+        UpdateStatusDate = DateTime.UtcNow;
     }
 
     public void UpdatePrice(decimal price)
