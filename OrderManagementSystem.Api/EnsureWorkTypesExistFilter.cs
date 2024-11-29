@@ -30,6 +30,6 @@ public class EnsureWorkTypesExistFilter : IEndpointFilter
             });
         }
 
-        return next(efiContext);
+        return await next(efiContext);
     }
 }

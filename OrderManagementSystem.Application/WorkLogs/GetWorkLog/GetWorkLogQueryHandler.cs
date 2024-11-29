@@ -22,6 +22,7 @@ internal class GetWorkLogQueryHandler : IQueryHandler<GetWorkLogQuery, WorkLogDt
         }
 
         var response = new WorkLogDto(
+            workLog.Id,
             workLog.Customer.Name,
             workLog.Customer.PhoneNumber,
             workLog.WorkType.Name,

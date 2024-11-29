@@ -14,7 +14,9 @@ internal class CreateWorkTypeCommandHandler
         _workTypeRepository = workTypeRepository;
     }
 
-    public async Task<Result<WorkTypeDto>> Handle(CreateWorkTypeCommand request, CancellationToken cancellationToken)
+    public async Task<Result<WorkTypeDto>> Handle(
+        CreateWorkTypeCommand request,
+        CancellationToken cancellationToken)
     {
         var workType = new WorkType(request.WorkTypeDto.Name);
 

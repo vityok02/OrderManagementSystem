@@ -1,6 +1,7 @@
 ﻿using Application.WorkLogs.CreateWorkLog;
 using Application.WorkLogs.GetWorkLog;
 using Application.WorkLogs.GetWorkLogs;
+using Domain.Abstract;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -51,18 +52,18 @@ public static class WorkLogsEndpoints
         ISender sender,
         [FromBody] CreateWorkLogDto dto)
     {
-        var workLog = await sender
+        var result = await sender
             .Send(new CreateWorkLogCommand(dto));
 
-        if (workLog.IsFailure)
+        if (result.IsFailure)
         {
-            return Results.BadRequest(workLog.Error);
+            return Results.BadRequest(result.Error);
         }
 
         var link = linkGenerator
-            .GetPathByName(context, "GetWorkLog", new { id = workLog.Value.Id });
+            .GetPathByName(context, "GetWorkLog", new { id = result.Value.Id });
 
         return Results
-            .Created(link, workLog);
+            .Created(link, result);
     }
 }

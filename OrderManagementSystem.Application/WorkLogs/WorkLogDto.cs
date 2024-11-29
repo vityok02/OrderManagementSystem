@@ -1,6 +1,7 @@
 ﻿namespace Application.WorkLogs;
 
 public record WorkLogDto(
+    int Id,
     string CustomerName,
     string? Contacts,
     string WorkType,

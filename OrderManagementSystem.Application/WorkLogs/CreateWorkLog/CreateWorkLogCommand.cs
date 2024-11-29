@@ -3,4 +3,4 @@ using Domain.WorkLogs;
 
 namespace Application.WorkLogs.CreateWorkLog;
 
-public record CreateWorkLogCommand(CreateWorkLogDto WorkLogDto) : ICommand<WorkLog>;
+public record CreateWorkLogCommand(CreateWorkLogDto WorkLogDto) : ICommand<WorkLogDto>;

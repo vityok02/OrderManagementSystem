@@ -1,4 +1,5 @@
-﻿using Application.WorkTypes.CreateWorkType;
+﻿using Application.WorkTypes;
+using Application.WorkTypes.CreateWorkType;
 using Application.WorkTypes.GetWorkType;
 using Application.WorkTypes.GetWorkTypes;
 using Domain;
@@ -48,7 +49,7 @@ public static class WorkTypesEndpoints
         HttpContext context,
         LinkGenerator linkGenerator,
         ISender sender,
-        [FromBody] WorkTypeDto workTypeDto)
+        [FromBody] CreateWorkTypeDto workTypeDto)
     {
         var workType = await sender.Send(new CreateWorkTypeCommand(workTypeDto));
         return workType.IsSuccess

@@ -6,7 +6,7 @@ using Domain.WorkLogs;
 namespace Application.WorkLogs.CreateWorkLog;
 
 internal class CreateWorkLogCommandHandler
-    : ICommandHandler<CreateWorkLogCommand, WorkLog>
+    : ICommandHandler<CreateWorkLogCommand, WorkLogDto>
 {
     private readonly IWorkLogRepository _workLogRepository;
     private readonly IRepository<WorkType> _workTypeRepository;
@@ -19,7 +19,7 @@ internal class CreateWorkLogCommandHandler
         _workTypeRepository = workTypeRepository;
     }
 
-    public async Task<Result<WorkLog>> Handle(
+    public async Task<Result<WorkLogDto>> Handle(
         CreateWorkLogCommand request,
         CancellationToken cancellationToken)
     {
@@ -30,13 +30,13 @@ internal class CreateWorkLogCommandHandler
 
         if (!await _workTypeRepository.AnyAsync(cancellationToken))
         {
-            return Result<WorkLog>
+            return Result<WorkLogDto>
                 .Failure(CreateWorkLogErrors.WorkTypesEmpty);
         }
 
         if (workType is null)
         {
-            return Result<WorkLog>
+            return Result<WorkLogDto>
                 .Failure(CreateWorkLogErrors.WorkTypeNotFound(dto.WorkTypeId));
         }
 
@@ -49,6 +49,6 @@ internal class CreateWorkLogCommandHandler
         await _workLogRepository.CreateAsync(workLog, cancellationToken);
         await _workLogRepository.SaveChangesAsync(cancellationToken);
 
-        return Result<WorkLog>.Success(workLog);
+        return Result<WorkLogDto>.Success(workLog.ToDto());
     }
 }

@@ -8,6 +8,7 @@ public static class WorkLogExtensions
     {
         // TODO: include in repository
         return new WorkLogDto(
+            workLog.Id,
             workLog.Customer.Name,
             workLog.Customer.PhoneNumber,
             workLog.WorkType.Name,

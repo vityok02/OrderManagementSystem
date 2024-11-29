@@ -1,10 +1,10 @@
 ﻿namespace Domain.Abstract;
 
-public class Result<T> : Result
+public class Result<TValue> : Result
 {
-    public T Value { get; } = default!;
+    public TValue Value { get; } = default!;
 
-    private Result(T value)
+    private Result(TValue value)
     {
         IsSuccess = true;
         Value = value;
@@ -22,8 +22,8 @@ public class Result<T> : Result
         Error = new Error(code, description);
     }
 
-    public static Result<T> Success(T value) => new(value);
-    public new static Result<T> Failure(Error error) => new(error);
-    public new static Result<T> Failure(string code, string? description = null) => new(code, description);
+    public static Result<TValue> Success(TValue value) => new(value);
+    public new static Result<TValue> Failure(Error error) => new(error);
+    public new static Result<TValue> Failure(string code, string? description = null) => new(code, description);
 }
 
