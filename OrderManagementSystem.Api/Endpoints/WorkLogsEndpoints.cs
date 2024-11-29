@@ -38,7 +38,7 @@ public static class WorkLogsEndpoints
             .Produces(StatusCodes.Status404NotFound);
     }
 
-    // TOTO: WARNING: Use FromBody instead of FromQuery
+    // TODO: WARNING: Use FromBody instead of FromQuery
     private static async Task<IResult> UpdateStatus(
         ISender sender,
         [FromRoute] int id,
